@@ -6,6 +6,7 @@ const mongoose = require('mongoose'); // Import for database connection checks
 const { authMiddleware } = require('./utils/auth');
 const { fetchDataFromAWS } = require('./utils/apiCalls'); // Import the function
 const db = require('./config/connection'); // Import database connection
+const apiRoutes = require('./routes/apiRoutes');
 
 const { typeDefs, resolvers } = require('./schemas');
 
