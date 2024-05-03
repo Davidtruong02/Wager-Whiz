@@ -1,20 +1,20 @@
 const { Schema, model } = require('mongoose');
 
 const playerDataSchema = new Schema({
-    PlayerName: { type: String, required: true },
-    Sport: { type: String, required: true },
-    Category: { type: String, required: true },
-    Line: { type: Number, required: true },
-    TypeOfLine: { type: String, required: true },
-    Position: { type: String, required: true },
-    Team: { type: String, required: true },
-    Opponent: { type: String, required: true },
-    USG: { type: Number },
-    Minutes: { type: Number },
-    MinPercentage: { type: String },
-    Projection: { type: Number },
-    DVAPosDef: { type: String },
-    ImageURL: { type: String },
+    playerName: { type: String, required: true },
+    sport: { type: String, required: true },
+    category: { type: String, required: true },
+    line: { type: Number, required: true },
+    typeOfLine: { type: String, required: true },
+    position: { type: String, required: true },
+    team: { type: String, required: true },
+    opponent: { type: String, required: true },
+    usagePercent: { type: Number }, // USG%
+    minutes: { type: Number, required: true },
+    minutesPercentage: { type: String }, // Min %
+    projection: { type: Number, required: true },
+    dvaPositionDefense: { type: String }, // DVA pos def
+    imageUrl: { type: String }
 });
 
 const PlayerData = model('PlayerData', playerDataSchema);
