@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
-import Icon from "../../images/wager.jpg";
+import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
 import SignUpModal from "../Modal/SingUpModal";
 import SignInModal from "../Modal/SignInModal";
@@ -38,12 +38,12 @@ function Header() {
       <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
         <Nav.Item>
           <Nav.Link eventKey="2" title="Item" style={{ color: "white" }}>
-            NavLink 2 content
+            Current Board
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="2" style={{ color: "white" }}>
-            NavLink 3 content
+            My Picks
           </Nav.Link>
         </Nav.Item>
         <NavDropdown
