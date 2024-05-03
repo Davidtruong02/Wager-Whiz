@@ -1,12 +1,24 @@
+import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import Icon from "../../images/wager.jpg";
 import Button from "react-bootstrap/Button";
+import SignUpModal from "../Modal/SingUpModal";
+import SignInModal from "../Modal/SignInModal";
 
 function Header() {
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
+
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+
+  const handleSignUpModalClose = () => setShowSignUpModal(false);
+  const handleSignUpModalShow = () => setShowSignUpModal(true);
+
+  const handleSignInModalClose = () => setShowSignInModal(false);
+  const handleSignInModalShow = () => setShowSignInModal(true);
 
   return (
     <Navbar
@@ -47,10 +59,24 @@ function Header() {
           <NavDropdown.Divider />
           <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
         </NavDropdown>
-        <Button variant="primary" className="mr-2">
-          Login
+        <Button
+          variant="primary"
+          onClick={handleSignInModalShow}
+          className="mr-2"
+        >
+          Sign In
         </Button>
-        <Button variant="secondary">Sign Up</Button>
+        <SignInModal
+          show={showSignInModal}
+          handleClose={handleSignInModalClose}
+        />
+        <Button variant="secondary" onClick={handleSignUpModalShow}>
+          Sign Up
+        </Button>
+        <SignUpModal
+          show={showSignUpModal}
+          handleClose={handleSignUpModalClose}
+        />
       </Nav>
     </Navbar>
   );
