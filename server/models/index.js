@@ -1,4 +1,4 @@
 const User = require('./User');
-const Thought = require('./playerData');
+const PlayerData = require('./playerData'); // Correcting the import
 
-module.exports = { User, Thought };
+module.exports = { User, PlayerData }; // Exporting the correct models
