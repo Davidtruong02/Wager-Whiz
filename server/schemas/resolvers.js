@@ -1,13 +1,13 @@
-const { User } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { User } = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('');
+      return User.find().populate("");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('');
+      return User.findOne({ username }).populate("");
     },
   },
 
@@ -34,7 +34,7 @@ const resolvers = {
 
       return { token, user };
     },
-  }
+  },
 };
 
 module.exports = resolvers;
