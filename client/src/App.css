@@ -2,7 +2,9 @@ html, body, #root {
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-image: url(../src/images/stadium.jpg);
+  /* background-image: url(../src/images/stadium.jpg); */
+  /* background-image: url("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzV4dGJodnlqOWR3MnVmcnY3eW0xMjBpejltdzFldWk3NDFma2xqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LAXStpTXSkoit2HiAg/giphy.gif"); */
+  background-image: url(../src/images/Staduim.gif);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -12,6 +14,26 @@ html, body, #root {
   padding: 15px;
 }
 
+.signInModal .signUpModal {
+  background-color: #1d1e22;
+}
 
+.signInModal .modal-content {
+  background-color: #1d1e22; 
+  color: white;
+}
+
+.signUpModal .modal-content {
+  background-color: #1d1e22; 
+  color: white;
+}
+
+.currentBoard .dropdown-menu {
+  background-color: #1d1e22;
+}
+
+.currentBoard .dropdown-item {
+  color: white;
+}
 
 
