@@ -7,6 +7,14 @@ import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
 import SignUpModal from "../Modal/SingUpModal";
 import SignInModal from "../Modal/SignInModal";
+import "../../App.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBasketballBall,
+  faBaseballBall,
+  faHockeyPuck,
+  faGamepad,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
@@ -19,6 +27,13 @@ function Header() {
 
   const handleSignInModalClose = () => setShowSignInModal(false);
   const handleSignInModalShow = () => setShowSignInModal(true);
+
+  const handleSignUpModalOpen = () => {
+    setShowSignInModal(false);
+    setShowSignUpModal(true);
+  };
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <Navbar
@@ -35,30 +50,51 @@ function Header() {
         />{" "}
         <span className="text-white">WagerWhiz</span>
       </Navbar.Brand>
+      {isLoggedIn && (
+        <Navbar.Text className="text-white">Welcome, {username}!!</Navbar.Text>
+      )}
       <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
-        <Nav.Item>
-          <Nav.Link eventKey="2" title="Item" style={{ color: "white" }}>
-            Current Board
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="2" style={{ color: "white" }}>
-            My Picks
-          </Nav.Link>
-        </Nav.Item>
-        <NavDropdown
-          title={<span style={{ color: "white" }}>Sports</span>}
-          id="nav-dropdown"
-          style={{ color: "white" }}
-        >
-          <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
-          <NavDropdown.Item eventKey="4.3">
-            Something else here
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
-        </NavDropdown>
+        {isLoggedIn && (
+          <>
+            <Nav.Item>
+              <Nav.Link eventKey="2" style={{ color: "white" }}>
+                My Picks
+              </Nav.Link>
+            </Nav.Item>
+            <NavDropdown
+              title={<span style={{ color: "white" }}>Current Board</span>}
+              id="nav-dropdown"
+              style={{ color: "#1d1e22" }}
+              className="currentBoard"
+            >
+              <NavDropdown.Item eventKey="4.1">
+                <FontAwesomeIcon
+                  icon={faBasketballBall}
+                  style={{ color: "orange" }}
+                />{" "}
+                NBA
+              </NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.2">
+                <FontAwesomeIcon
+                  icon={faBaseballBall}
+                  style={{ color: "red" }}
+                />{" "}
+                MLB
+              </NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.3">
+                <FontAwesomeIcon
+                  icon={faHockeyPuck}
+                  style={{ color: "blue" }}
+                />{" "}
+                NHL
+              </NavDropdown.Item>
+              <NavDropdown.Item eventKey="4.4">
+                <FontAwesomeIcon icon={faGamepad} style={{ color: "grey" }} />{" "}
+                CSGO
+              </NavDropdown.Item>
+            </NavDropdown>
+          </>
+        )}
         <Button
           variant="primary"
           onClick={handleSignInModalShow}
@@ -69,8 +105,9 @@ function Header() {
         <SignInModal
           show={showSignInModal}
           handleClose={handleSignInModalClose}
+          handleSignUpModalOpen={handleSignUpModalOpen}
         />
-        <Button variant="secondary" onClick={handleSignUpModalShow}>
+        <Button variant="secondary" onClick={handleSignUpModalOpen}>
           Sign Up
         </Button>
         <SignUpModal

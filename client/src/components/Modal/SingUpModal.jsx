@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../../utils/auth";
 import { CHECK_USERNAME } from "../../utils/queries";
 import { ADD_USER } from "../../utils/mutations";
+import "../../App.css";
 
 // Sign Up Modal
 function SignUpModal({ show, handleClose }) {
@@ -24,16 +25,11 @@ function SignUpModal({ show, handleClose }) {
     variables: { username },
   });
 
-  console.log("username:", username); // Log the username state
-  console.log("data:", data); // Log the data returned from the query
-
   useEffect(() => {
     if (data?.user?.username) {
       setUsernameExists(true);
-      console.log("usernameExists set to true");
     } else {
       setUsernameExists(false);
-      console.log("usernameExists set to false");
     }
   }, [data]);
 
@@ -46,6 +42,8 @@ function SignUpModal({ show, handleClose }) {
   const [addUser] = useMutation(ADD_USER);
 
   const createUser = async () => {
+    console.log("createUser function called"); // New console.log statement
+
     if (password !== confirmPassword) {
       setPasswordsMatch(false);
       passwordRef.current.focus();
@@ -53,6 +51,8 @@ function SignUpModal({ show, handleClose }) {
     }
 
     try {
+      console.log("About to call addUser mutation"); // New console.log statement
+
       const { data } = await addUser({
         variables: {
           username,
@@ -61,7 +61,10 @@ function SignUpModal({ show, handleClose }) {
         },
       });
 
-      Auth.login(data.addUser.token);
+      console.log("addUser mutation returned", data); // New console.log statement
+
+      Auth.login(data.addUser.token, username);
+      console.log("Token has been created:", data.addUser.token);
       return true;
     } catch (error) {
       console.error("An error occurred while creating the user:", error);
@@ -77,7 +80,7 @@ function SignUpModal({ show, handleClose }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className="signUpModal">
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
