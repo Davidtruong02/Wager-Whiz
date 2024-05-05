@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
@@ -15,9 +15,12 @@ import {
   faHockeyPuck,
   faGamepad,
 } from "@fortawesome/free-solid-svg-icons";
+import Auth from "../../utils/auth";
 
 function Header() {
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
+
+  const [username, setUsername] = useState("");
 
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
@@ -33,7 +36,16 @@ function Header() {
     setShowSignUpModal(true);
   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = Auth.loggedIn();
+    setIsLoggedIn(loggedIn);
+    if (loggedIn) {
+      const username = Auth.getProfile();
+      setUsername(username);
+    }
+  }, []);
 
   return (
     <Navbar
@@ -50,11 +62,11 @@ function Header() {
         />{" "}
         <span className="text-white">WagerWhiz</span>
       </Navbar.Brand>
-      {isLoggedIn && (
+      {loggedIn && (
         <Navbar.Text className="text-white">Welcome, {username}!!</Navbar.Text>
       )}
       <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
-        {isLoggedIn && (
+        {loggedIn && (
           <>
             <Nav.Item>
               <Nav.Link eventKey="2" style={{ color: "white" }}>
