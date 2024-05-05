@@ -35,5 +35,10 @@ html, body, #root {
 .currentBoard .dropdown-item {
   color: white;
 }
+.currentBoard .dropdown-item:hover {
+  background-color: #141e4a;
+}
 
-
+.currentBoard .dropdown-item.active {
+  background-color: #141e4a;
+}
