@@ -43,7 +43,7 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
   return (
     <Modal show={show} onHide={handleClose} className="signInModal">
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Sign In</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -73,7 +73,7 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
             Don't have an account, not a problem. Click{" "}
             <span
               style={{ color: "#6666ff", cursor: "pointer" }}
-              onClick={handleSignUpClick}
+              onClick={handleSignUpClick} // use the prop directly here
             >
               here
             </span>{" "}

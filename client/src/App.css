@@ -1,13 +1,18 @@
-html, body, #root {
+.loggedOut {
   height: 100vh;
   margin: 0;
   padding: 0;
-  /* background-image: url(../src/images/stadium.jpg); */
-  /* background-image: url("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzV4dGJodnlqOWR3MnVmcnY3eW0xMjBpejltdzFldWk3NDFma2xqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LAXStpTXSkoit2HiAg/giphy.gif"); */
   background-image: url(../src/images/Staduim.gif);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.loggedIn {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #1d1e22;
 }
 
 .navContainer {
