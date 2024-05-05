@@ -1,19 +1,25 @@
 import { useState, useRef, useEffect } from "react";
+import { gql } from "@apollo/client";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { useMutation, useQuery } from "@apollo/client";
-import Auth from "../../utils/auth";
-import { CHECK_USERNAME } from "../../utils/queries";
-import { ADD_USER } from "../../utils/mutations";
+import Auth from "../../utils/auth.js";
+import { CHECK_USERNAME } from "../../utils/queries.js";
+import { ADD_USER } from "../../utils/mutations.js";
+import { SIGNUP_USER } from "../../utils/mutations";
 import "../../App.css";
+import "../../App.jsx";
 
 // Sign Up Modal
 function SignUpModal({ show, handleClose }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formState, setFormState] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [shouldClose, setShouldClose] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
@@ -22,7 +28,7 @@ function SignUpModal({ show, handleClose }) {
   const passwordRef = useRef(null);
 
   const { loading, error, data } = useQuery(CHECK_USERNAME, {
-    variables: { username },
+    variables: { username: formState.username },
   });
 
   useEffect(() => {
@@ -41,33 +47,31 @@ function SignUpModal({ show, handleClose }) {
 
   const [addUser] = useMutation(ADD_USER);
 
-  const createUser = async () => {
-    console.log("createUser function called"); // New console.log statement
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-    if (password !== confirmPassword) {
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  const handleFormSubmit = async () => {
+    if (formState.password !== formState.confirmPassword) {
       setPasswordsMatch(false);
       passwordRef.current.focus();
       return false;
     }
 
     try {
-      console.log("About to call addUser mutation"); // New console.log statement
-
       const { data } = await addUser({
-        variables: {
-          username,
-          email,
-          password,
-        },
+        variables: { ...formState },
       });
 
-      console.log("addUser mutation returned", data); // New console.log statement
-
-      Auth.login(data.addUser.token, username);
-      console.log("Token has been created:", data.addUser.token);
+      Auth.login(data.addUser.token, formState.username);
       return true;
     } catch (error) {
-      console.error("An error occurred while creating the user:", error);
+      console.log("An error occurred while creating the user:", error);
       return false;
     }
   };
@@ -82,7 +86,7 @@ function SignUpModal({ show, handleClose }) {
     <>
       <Modal show={show} onHide={handleClose} className="signUpModal">
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Sign up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -92,10 +96,11 @@ function SignUpModal({ show, handleClose }) {
                 <div className="text-danger">Username already in use</div>
               )}
               <Form.Control
+                name="username"
                 type="text"
                 placeholder="Create a username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={formState.username}
+                onChange={handleChange}
                 isInvalid={usernameExists}
                 ref={usernameRef}
               />
@@ -103,10 +108,11 @@ function SignUpModal({ show, handleClose }) {
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                name="email"
                 type="email"
                 placeholder="name@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formState.email}
+                onChange={handleChange}
               />
             </Form.Group>
             {!passwordsMatch && (
@@ -118,10 +124,11 @@ function SignUpModal({ show, handleClose }) {
             >
               <Form.Label>Create a password</Form.Label>
               <Form.Control
+                name="password"
                 type="password"
                 placeholder="Create a password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formState.password}
+                onChange={handleChange}
                 isInvalid={!passwordsMatch}
                 ref={passwordRef}
               />
@@ -132,10 +139,11 @@ function SignUpModal({ show, handleClose }) {
             >
               <Form.Label>Confirm your password</Form.Label>
               <Form.Control
+                name="confirmPassword"
                 type="password"
                 placeholder="Match previous password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={formState.confirmPassword}
+                onChange={handleChange}
                 isInvalid={!passwordsMatch}
               />
             </Form.Group>
@@ -148,7 +156,7 @@ function SignUpModal({ show, handleClose }) {
           <Button
             variant="primary"
             onClick={async () => {
-              const userCreated = await createUser();
+              const userCreated = await handleFormSubmit();
               if (userCreated) {
                 handleClose();
               }

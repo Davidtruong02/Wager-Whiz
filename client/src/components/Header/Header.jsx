@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
-import SignUpModal from "../Modal/SingUpModal";
+import SignUpModal from "../Modal/SignUpModal";
 import SignInModal from "../Modal/SignInModal";
 import "../../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +18,8 @@ import {
 import Auth from "../../utils/auth";
 
 function Header() {
+  const [loggedIn, setIsLoggedIn] = useState(false);
+
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
 
   const [username, setUsername] = useState("");
@@ -39,8 +41,6 @@ function Header() {
     setShowSignInModal(false);
     setShowSignUpModal(true);
   };
-
-  const [loggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const loggedIn = Auth.loggedIn();
@@ -77,62 +77,77 @@ function Header() {
                 My Picks
               </Nav.Link>
             </Nav.Item>
-            <NavDropdown
-              title={<span style={{ color: "white" }}>Current Board</span>}
-              id="nav-dropdown"
-              style={{ color: "#1d1e22" }}
-              className="currentBoard"
-            >
-              <NavDropdown.Item eventKey="4.1">
-                <FontAwesomeIcon
-                  icon={faBasketballBall}
-                  style={{ color: "orange" }}
-                />{" "}
-                NBA
-              </NavDropdown.Item>
-              <NavDropdown.Item eventKey="4.2">
-                <FontAwesomeIcon
-                  icon={faBaseballBall}
-                  style={{ color: "red" }}
-                />{" "}
-                MLB
-              </NavDropdown.Item>
-              <NavDropdown.Item eventKey="4.3">
-                <FontAwesomeIcon
-                  icon={faHockeyPuck}
-                  style={{ color: "blue" }}
-                />{" "}
-                NHL
-              </NavDropdown.Item>
-              <NavDropdown.Item eventKey="4.4">
-                <FontAwesomeIcon icon={faGamepad} style={{ color: "grey" }} />{" "}
-                CSGO
-              </NavDropdown.Item>
-            </NavDropdown>
           </>
         )}
-
-      <Button variant="secondary" onClick={handleLogout} className="mr-2">Logout</Button>
-
-      <Button variant="secondary" onClick={handleSignUpModalOpen} className="mr-2">
-          Sign Up
-        </Button>
-        <SignUpModal
-          show={showSignUpModal}
-          handleClose={handleSignUpModalClose}
-        />
-        <Button
-          variant="primary"
-          onClick={handleSignInModalShow}
-          className="mr-2"
+        <NavDropdown
+          title={<span style={{ color: "white" }}>Current Board</span>}
+          id="nav-dropdown"
+          style={{ color: "#1d1e22" }}
+          className="currentBoard"
         >
-          Sign In
-        </Button>
-        <SignInModal
-          show={showSignInModal}
-          handleClose={handleSignInModalClose}
-          handleSignUpModalOpen={handleSignUpModalOpen}
-        />
+          <NavDropdown.Item
+            onClick={() => !loggedIn && handleSignInModalShow()}
+          >
+            <FontAwesomeIcon
+              icon={faBasketballBall}
+              style={{ color: "orange" }}
+            />{" "}
+            NBA
+          </NavDropdown.Item>
+          <NavDropdown.Item
+            onClick={() => !loggedIn && handleSignInModalShow()}
+          >
+            <FontAwesomeIcon icon={faBaseballBall} style={{ color: "red" }} />{" "}
+            MLB
+          </NavDropdown.Item>
+          <NavDropdown.Item
+            onClick={() => !loggedIn && handleSignInModalShow()}
+          >
+            <FontAwesomeIcon icon={faHockeyPuck} style={{ color: "blue" }} />{" "}
+            NHL
+          </NavDropdown.Item>
+          <NavDropdown.Item
+            onClick={() => !loggedIn && handleSignInModalShow()}
+          >
+            <FontAwesomeIcon icon={faGamepad} style={{ color: "grey" }} /> CSGO
+          </NavDropdown.Item>
+        </NavDropdown>
+        {loggedIn && (
+          <Button
+            variant="secondary"
+            onClick={handleLogout}
+            className="ml-auto"
+          >
+            Logout
+          </Button>
+        )}
+        {!loggedIn && (
+          <>
+            <Button
+              variant="secondary"
+              onClick={handleSignUpModalOpen}
+              className="mr-2"
+            >
+              Sign Up
+            </Button>
+            <SignUpModal
+              show={showSignUpModal}
+              handleClose={handleSignUpModalClose}
+            />
+            <Button
+              variant="primary"
+              onClick={handleSignInModalShow}
+              className="mr-2"
+            >
+              Sign In
+            </Button>
+            <SignInModal
+              show={showSignInModal}
+              handleClose={handleSignInModalClose}
+              handleSignUpModalOpen={handleSignUpModalOpen}
+            />
+          </>
+        )}
       </Nav>
     </Navbar>
   );
