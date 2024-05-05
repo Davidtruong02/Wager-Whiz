@@ -9,6 +9,7 @@ import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Auth from "./utils/auth";
 import "./App.css";
+import NavBar from "./components/NavBar/NavBar";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -46,6 +47,10 @@ function App() {
     const root = document.getElementById("root");
     root.className = loggedIn ? "loggedIn" : "loggedOut";
   }, [loggedIn]);
+
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+
+  const handleSignUpModalShow = () => setShowSignUpModal(true);
 
   return (
     <ApolloProvider client={client}>
