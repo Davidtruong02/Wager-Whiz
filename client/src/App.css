@@ -47,3 +47,9 @@
 .currentBoard .dropdown-item.active {
   background-color: #141e4a;
 }
+
+.playerCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}

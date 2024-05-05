@@ -1,15 +1,57 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function BasicCard() {
+function BasicCard({
+  playerName,
+  sport,
+  category,
+  line,
+  typeOfLine,
+  position,
+  team,
+  opponent,
+  usagePercent,
+  minutes,
+  minutesPercentage,
+  projection,
+  dvaPositionDefense,
+  imageUrl,
+}) {
+  console.log(
+    playerName,
+    sport,
+    category,
+    line,
+    typeOfLine,
+    position,
+    team,
+    opponent,
+    usagePercent,
+    minutes,
+    minutesPercentage,
+    projection,
+    dvaPositionDefense,
+    imageUrl
+  );
+
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      {imageUrl && <Card.Img variant="top" src={imageUrl} />}
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{playerName}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {sport && `Sport: ${sport}`}
+          {category && `Category: ${category}`}
+          {line && `Line: ${line}`}
+          {typeOfLine && `Type of Line: ${typeOfLine}`}
+          {position && `Position: ${position}`}
+          {team && `Team: ${team}`}
+          {opponent && `Opponent: ${opponent}`}
+          {usagePercent && `Usage Percent: ${usagePercent}`}
+          {minutes && `Minutes: ${minutes}`}
+          {minutesPercentage && `Minutes Percentage: ${minutesPercentage}`}
+          {projection && `Projection: ${projection}`}
+          {dvaPositionDefense && `DVA Position Defense: ${dvaPositionDefense}`}
         </Card.Text>
         <Button variant="primary">Go somewhere</Button>
       </Card.Body>

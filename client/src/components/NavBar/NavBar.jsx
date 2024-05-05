@@ -7,6 +7,7 @@ import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
 import SignUpModal from "../Modal/SignUpModal";
 import SignInModal from "../Modal/SignInModal";
+import CardPanel from "../Forms/CardPanel";
 import "../../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,12 +15,31 @@ import {
   faBaseballBall,
   faHockeyPuck,
   faGamepad,
+  faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import Auth from "../../utils/auth";
+import Axios from "axios";
 
-function Header() {
+function getSportIcon(sport) {
+  switch (sport.toLowerCase()) {
+    case "nba":
+      return faBasketballBall;
+    case "mlb":
+      return faBaseballBall;
+    case "nfl":
+      return faFootballBall;
+    case "nhl":
+      return faHockeyPuck;
+    default:
+      // If the sport isn't in the mapping, return a default icon
+      return faQuestion;
+  }
+}
+
+function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
+  const [loading, setLoading] = useState(true);
   const [loggedIn, setIsLoggedIn] = useState(false);
-
+  const [sports, setSports] = useState([]);
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
 
   const [username, setUsername] = useState("");
@@ -37,12 +57,17 @@ function Header() {
   const handleSignInModalClose = () => setShowSignInModal(false);
   const handleSignInModalShow = () => setShowSignInModal(true);
 
-  const handleSignUpModalOpen = () => {
-    setShowSignInModal(false);
-    setShowSignUpModal(true);
-  };
-
   useEffect(() => {
+    Axios.get("/api/sports")
+      .then((response) => {
+        setSports(response.data);
+        setLoading(false); // Set loading to false when the data has been fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching sports:", error);
+        setLoading(false); // Also set loading to false if there's an error
+      });
+
     const loggedIn = Auth.loggedIn();
     setIsLoggedIn(loggedIn);
     if (loggedIn) {
@@ -85,32 +110,28 @@ function Header() {
           style={{ color: "#1d1e22" }}
           className="currentBoard"
         >
-          <NavDropdown.Item
-            onClick={() => !loggedIn && handleSignInModalShow()}
-          >
-            <FontAwesomeIcon
-              icon={faBasketballBall}
-              style={{ color: "orange" }}
-            />{" "}
-            NBA
-          </NavDropdown.Item>
-          <NavDropdown.Item
-            onClick={() => !loggedIn && handleSignInModalShow()}
-          >
-            <FontAwesomeIcon icon={faBaseballBall} style={{ color: "red" }} />{" "}
-            MLB
-          </NavDropdown.Item>
-          <NavDropdown.Item
-            onClick={() => !loggedIn && handleSignInModalShow()}
-          >
-            <FontAwesomeIcon icon={faHockeyPuck} style={{ color: "blue" }} />{" "}
-            NHL
-          </NavDropdown.Item>
-          <NavDropdown.Item
-            onClick={() => !loggedIn && handleSignInModalShow()}
-          >
-            <FontAwesomeIcon icon={faGamepad} style={{ color: "grey" }} /> CSGO
-          </NavDropdown.Item>
+          {loading ? (
+            <div>Loading...</div> // Replace this with a loading spinner or any other loading indicator
+          ) : (
+            sports.map((sport) => {
+              return (
+                <NavDropdown.Item
+                  key={sport._id}
+                  onClick={() => {
+                    console.log("Sport selected:", sport.sport);
+                    !loggedIn && handleSignInModalShow();
+                    setSelectedSport(sport.sport); // Update the selected sport
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={getSportIcon(sport.sport)}
+                    style={{ color: "orange" }}
+                  />{" "}
+                  {sport.sport}
+                </NavDropdown.Item>
+              );
+            })
+          )}
         </NavDropdown>
         {loggedIn && (
           <Button
@@ -153,4 +174,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default NavBar;
