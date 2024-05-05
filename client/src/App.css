@@ -36,7 +36,7 @@ html, body, #root {
   color: white;
 }
 .currentBoard .dropdown-item:hover {
-  background-color: #141e4a;
+  background-color: #a6a6a6;
 }
 
 .currentBoard .dropdown-item.active {
