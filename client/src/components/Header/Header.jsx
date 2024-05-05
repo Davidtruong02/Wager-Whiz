@@ -27,6 +27,10 @@ function Header() {
 
   const handleSignUpModalClose = () => setShowSignUpModal(false);
   const handleSignUpModalShow = () => setShowSignUpModal(true);
+  const handleLogout = () => {
+    Auth.logout();
+    setIsLoggedIn(false);
+  };
 
   const handleSignInModalClose = () => setShowSignInModal(false);
   const handleSignInModalShow = () => setShowSignInModal(true);
@@ -107,6 +111,16 @@ function Header() {
             </NavDropdown>
           </>
         )}
+
+      <Button variant="secondary" onClick={handleLogout} className="mr-2">Logout</Button>
+
+      <Button variant="secondary" onClick={handleSignUpModalOpen} className="mr-2">
+          Sign Up
+        </Button>
+        <SignUpModal
+          show={showSignUpModal}
+          handleClose={handleSignUpModalClose}
+        />
         <Button
           variant="primary"
           onClick={handleSignInModalShow}
@@ -118,13 +132,6 @@ function Header() {
           show={showSignInModal}
           handleClose={handleSignInModalClose}
           handleSignUpModalOpen={handleSignUpModalOpen}
-        />
-        <Button variant="secondary" onClick={handleSignUpModalOpen}>
-          Sign Up
-        </Button>
-        <SignUpModal
-          show={showSignUpModal}
-          handleClose={handleSignUpModalClose}
         />
       </Nav>
     </Navbar>
