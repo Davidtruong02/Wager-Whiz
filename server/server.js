@@ -6,9 +6,9 @@ const mongoose = require("mongoose"); // Import for database connection checks
 const { authMiddleware } = require("./utils/auth");
 const { fetchDataFromAWS } = require("./utils/apiCalls"); // Import the function
 const db = require("./config/connection"); // Import database connection
-const apiRoutes = require("./routes/apiRoutes");
-const sportsRoutes = require("./routes/sportRoutes");
-const playerRoutes = require("./routes/playerRoutes");
+// const apiRoutes = require("./routes/apiRoutes");
+// const playerRoutes = require("./routes/playerRoutes");
+const routes = require('./routes');
 
 const { typeDefs, resolvers } = require("./schemas");
 
@@ -32,9 +32,7 @@ const startApolloServer = async () => {
     })
   );
 
-  app.use("/api", apiRoutes); // Include API routes
-  app.use("/", sportsRoutes);
-  app.use("/", playerRoutes);
+  app.use(routes); // Include API routes
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));

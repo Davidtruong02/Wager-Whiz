@@ -36,6 +36,7 @@ const typeDefs = `
 
   type Query {
     user(username: String!): User
+    users: [User]
     player(playerName: String!): Player
   }
 `;
