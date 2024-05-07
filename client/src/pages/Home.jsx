@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../App.css";
-import Navbar from "../components/Header/Header";
+import NavBar from "../components/NavBar/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import LoggedOut from "../components/Forms/LoggedOut";
+import LoggedIn from "../components/Forms/LoggedIn";
+import CardPanel from "../components/Forms/CardPanel";
+import Auth from "../utils/auth";
 
 function Home() {
+  const [loggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [selectedSport, setSelectedSport] = useState(null);
+
+  useEffect(() => {
+    const loggedIn = Auth.loggedIn();
+    setIsLoggedIn(loggedIn);
+    if (loggedIn) {
+      const username = Auth.getProfile();
+      setUsername(username);
+    }
+  }, []);
+
   return (
     <>
-      <div className="navContainer">
-        <Navbar />
-      </div>
+      <NavBar setSelectedSport={setSelectedSport} />
+      {!loggedIn && <LoggedOut />}
+      {loggedIn && !selectedSport && <LoggedIn />}
+      {loggedIn && selectedSport && <CardPanel selectedSport={selectedSport} />}
     </>
   );
 }

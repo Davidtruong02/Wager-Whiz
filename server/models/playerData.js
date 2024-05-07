@@ -1,3 +1,5 @@
+// playerData model
+
 const { Schema, model } = require('mongoose');
 
 const playerDataSchema = new Schema({
@@ -10,7 +12,7 @@ const playerDataSchema = new Schema({
     team: { type: String, required: true },
     opponent: { type: String, required: true },
     usagePercent: { type: Number }, // USG%
-    minutes: { type: Number, required: true },
+    minutes: { type: Number }, // Minutes
     minutesPercentage: { type: String }, // Min %
     projection: { type: Number, required: true },
     dvaPositionDefense: { type: String }, // DVA pos def

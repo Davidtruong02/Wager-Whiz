@@ -1,20 +1,22 @@
-const { User } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { User } = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('');
+      return User.find().populate("");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('');
+      return User.findOne({ username }).populate("");
     },
   },
 
   Mutation: {
-    addUser: async (parent, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
+    addUser: async (parent, args) => {
+      // create a new user with the arguments passed in
+      const user = await User.create(args);
       const token = signToken(user);
+
       return { token, user };
     },
     login: async (parent, { email, password }) => {
@@ -34,7 +36,7 @@ const resolvers = {
 
       return { token, user };
     },
-  }
+  },
 };
 
 module.exports = resolvers;

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,9 +7,9 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
-
-// import Header from "./components/Header";
-// import Footer from "./components/Footer";
+import Auth from "./utils/auth";
+import "./App.css";
+import NavBar from "./components/NavBar/NavBar";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -35,9 +36,28 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [loggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = Auth.loggedIn();
+    setIsLoggedIn(loggedIn);
+  }, []);
+
+  useEffect(() => {
+    const root = document.getElementById("root");
+    root.className = loggedIn ? "loggedIn" : "loggedOut";
+  }, [loggedIn]);
+
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+
+  const handleSignUpModalShow = () => setShowSignUpModal(true);
+
   return (
     <ApolloProvider client={client}>
-      <div className="flex-column justify-flex-start min-100-vh">
+      <div
+        className="flex-column justify-flex-start min-100-vh"
+        // style={backgroundStyle}
+      >
         <div className="container">
           <Outlet />
         </div>
