@@ -53,3 +53,13 @@
   flex-wrap: wrap;
   gap: 5px;
 }
+
+.card-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card-container {
+  margin: 10px;
+}
