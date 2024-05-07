@@ -48,10 +48,6 @@ function App() {
     root.className = loggedIn ? "loggedIn" : "loggedOut";
   }, [loggedIn]);
 
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-
-  const handleSignUpModalShow = () => setShowSignUpModal(true);
-
   return (
     <ApolloProvider client={client}>
       <div

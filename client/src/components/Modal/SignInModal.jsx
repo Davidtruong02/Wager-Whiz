@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useMutation, ApolloError } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -30,7 +31,16 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
       Auth.login(data.login.token);
       handleClose();
     } catch (e) {
-      console.error(e);
+      if (e instanceof ApolloError) {
+        console.error(e.message);
+        e.graphQLErrors.map(({ message, extensions }) => {
+          if (extensions.code === "UNAUTHENTICATED") {
+            // Handle authentication error
+          }
+        });
+      } else {
+        console.error(e);
+      }
     }
 
     // clear form values
@@ -39,6 +49,12 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
       password: "",
     });
   };
+
+  useEffect(() => {
+    console.log("show prop:", show); // Step 3
+  }, [show]);
+
+  console.log(handleSignUpClick); // Add this line in SignInModal component
 
   return (
     <Modal show={show} onHide={handleClose} className="signInModal">
@@ -71,12 +87,9 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
           </Form.Group>
           <p>
             Don't have an account, not a problem. Click{" "}
-            <span
-              style={{ color: "#6666ff", cursor: "pointer" }}
-              onClick={handleSignUpClick} // use the prop directly here
-            >
+            <Link to="#" onClick={handleSignUpClick}>
               here
-            </span>{" "}
+            </Link>{" "}
             to sign up!
           </p>
         </Form>

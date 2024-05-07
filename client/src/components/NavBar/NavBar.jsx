@@ -5,8 +5,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
-import SignUpModal from "../Modal/SignUpModal";
 import SignInModal from "../Modal/SignInModal";
+import SignUpModal from "../Modal/SignUpModal";
 import CardPanel from "../Forms/CardPanel";
 import "../../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,19 +43,39 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
   const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
 
   const [username, setUsername] = useState("");
-
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showSignInModal, setShowSignInModal] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
-  const handleSignUpModalClose = () => setShowSignUpModal(false);
-  const handleSignUpModalShow = () => setShowSignUpModal(true);
   const handleLogout = () => {
     Auth.logout();
     setIsLoggedIn(false);
   };
 
+  const handleSignUpClick = () => {
+    setShowSignInModal(false);
+    setShowSignUpModal(true);
+  };
+
   const handleSignInModalClose = () => setShowSignInModal(false);
-  const handleSignInModalShow = () => setShowSignInModal(true);
+  const handleSignInModalShow = () => {
+    console.log("handleSignInModalShow called"); // Debug log
+    setShowSignInModal(true);
+  };
+
+  const handleSignUpModalClose = () => setShowSignUpModal(false); // Define handleSignUpModalClose here
+  const handleSignUpModalShow = () => {
+    console.log("handleSignUpModalShow called"); // Debug log
+    setShowSignUpModal(true); // Fixed line
+    setShowSignInModal(false);
+  };
+
+  useEffect(() => {
+    console.log("showSignInModal:", showSignInModal); // Debug log
+  }, [showSignInModal]);
+
+  useEffect(() => {
+    console.log("showSignUpModal:", showSignUpModal); // Debug log
+  }, [showSignUpModal]);
 
   useEffect(() => {
     Axios.get("/api/sports")
@@ -109,29 +129,34 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
           id="nav-dropdown"
           style={{ color: "#1d1e22" }}
           className="currentBoard"
+          onClick={() => {
+            if (!loggedIn) {
+              handleSignInModalShow();
+            }
+          }}
         >
-          {loading ? (
-            <div>Loading...</div> // Replace this with a loading spinner or any other loading indicator
-          ) : (
-            sports.map((sport) => {
-              return (
-                <NavDropdown.Item
-                  key={sport._id}
-                  onClick={() => {
-                    console.log("Sport selected:", sport.sport);
-                    !loggedIn && handleSignInModalShow();
-                    setSelectedSport(sport.sport); // Update the selected sport
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={getSportIcon(sport.sport)}
-                    style={{ color: "orange" }}
-                  />{" "}
-                  {sport.sport}
-                </NavDropdown.Item>
-              );
-            })
-          )}
+          {loggedIn &&
+            (loading ? (
+              <div>Loading...</div> // Replace this with a loading spinner or any other loading indicator
+            ) : (
+              sports.map((sport) => {
+                return (
+                  <NavDropdown.Item
+                    key={sport._id}
+                    onClick={() => {
+                      console.log("Sport selected:", sport.sport);
+                      setSelectedSport(sport.sport); // Update the selected sport
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={getSportIcon(sport.sport)}
+                      style={{ color: "white" }}
+                    />{" "}
+                    {sport.sport}
+                  </NavDropdown.Item>
+                );
+              })
+            ))}
         </NavDropdown>
         {loggedIn && (
           <Button
@@ -146,15 +171,11 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
           <>
             <Button
               variant="secondary"
-              onClick={handleSignUpModalOpen}
+              onClick={handleSignUpModalShow}
               className="mr-2"
             >
               Sign Up
             </Button>
-            <SignUpModal
-              show={showSignUpModal}
-              handleClose={handleSignUpModalClose}
-            />
             <Button
               variant="primary"
               onClick={handleSignInModalShow}
@@ -165,7 +186,11 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
             <SignInModal
               show={showSignInModal}
               handleClose={handleSignInModalClose}
-              handleSignUpModalOpen={handleSignUpModalOpen}
+              handleSignUpClick={handleSignUpClick} // Pass handleSignUpClick as a prop here
+            />
+            <SignUpModal
+              show={showSignUpModal}
+              handleClose={handleSignUpModalClose}
             />
           </>
         )}
