@@ -8,7 +8,7 @@ function CardPanel({ selectedSport }) {
 
   useEffect(() => {
     if (selectedSport) {
-      Axios.get(`/api/playerDatas/${selectedSport}`)
+      Axios.get(`/api/players/playerDatas/${selectedSport}`)
         .then((response) => {
           setPlayerData(response.data);
         })
