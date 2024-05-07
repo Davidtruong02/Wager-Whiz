@@ -1,4 +1,5 @@
 const { User } = require("../models");
+const { PlayerData } = require('../models');
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -9,34 +10,39 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("");
     },
+    player: async (_, { playerName }) => {
+      const player = await PlayerData.findOne({ playerName });
+      return player;
+    },
+    // other queries...
   },
 
   Mutation: {
-    addUser: async (parent, args) => {
-      // create a new user with the arguments passed in
-      const user = await User.create(args);
+    addUser: async (_, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
       const token = signToken(user);
 
       return { token, user };
     },
-    login: async (parent, { email, password }) => {
+    login: async (_, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError('User not found');
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError('Incorrect password');
       }
 
       const token = signToken(user);
 
       return { token, user };
     },
-  },
+    // other mutations...
+  }
 };
-
+    
 module.exports = resolvers;
