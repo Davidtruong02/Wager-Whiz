@@ -1,14 +1,14 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_PLAYER } from '../utils/queries';
 
 import Auth from '../utils/auth';
 
 const Profile = () => {
   const { username: userParam } = useParams();
 
-  const { loading, data } = useQuery(userParam ? QUERY_USER : {
+  const { loading, data } = useQuery(userParam ? QUERY_PLAYER : {
     variables: { username: userParam },
   });
 

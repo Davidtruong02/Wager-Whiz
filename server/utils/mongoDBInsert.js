@@ -5,8 +5,8 @@ const Team = require("../models/team");
 
 const insertDataIntoMongoDB = async (jsonData) => {
   try {
-    console.log("jsonData:", jsonData);
-    console.log("jsonData.NBA:", jsonData.NBA);
+    // console.log("jsonData:", jsonData);
+    // console.log("jsonData.NBA:", jsonData.NBA);
 
     // Transform NBA player data
     const nbaPlayers = jsonData.NBA.map((player) => ({

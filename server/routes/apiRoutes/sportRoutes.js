@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const Sport = require("../models/sport");
+const Sport = require("../../models/sport");
 
-router.get("/sports", (req, res) => {
+router.get("/", (req, res) => {
   Sport.find({})
     .then((sports) => {
       res.json(sports);

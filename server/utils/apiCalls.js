@@ -7,7 +7,7 @@ const fetchDataFromAWS = async () => {
     try {
         const response = await axios.get('https://t0v8j7tkfe.execute-api.us-east-2.amazonaws.com/beta/data');
         const jsonData = JSON.parse(response.data.body); // Parse the JSON data from the body property
-        console.log("Data fetched from AWS:", jsonData);
+        // console.log("Data fetched from AWS:", jsonData);
 
         await insertDataIntoMongoDB(jsonData); // Insert data into MongoDB
 

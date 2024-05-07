@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const PlayerData = require("../models/playerData");
+const PlayerData = require("../../models/playerData");
 
 router.get("/playerDatas/:sport", async (req, res) => {
   try {

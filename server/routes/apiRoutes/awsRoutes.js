@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { fetchDataFromAWS } = require("../utils/apiCalls");
+
+const { fetchDataFromAWS } = require("../../utils/apiCalls");
 
 router.get("/fetchAWSData", async (req, res) => {
   try {
