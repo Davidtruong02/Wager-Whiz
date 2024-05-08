@@ -9,7 +9,7 @@ const insertDataIntoMongoDB = async (jsonData) => {
     // console.log("jsonData.NBA:", jsonData.NBA);
 
     // Transform NBA player data
-    const nbaPlayers = jsonData.NBA.map((player) => ({
+    const nbaPlayers = jsonData.map((player) => ({
       playerName: player["Player Name"],
       sport: player.Sport,
       category: player.Category,
@@ -24,27 +24,28 @@ const insertDataIntoMongoDB = async (jsonData) => {
       projection: player.Projection,
       dvaPositionDefense: player["DVA pos def"],
       imageUrl: player.image_url,
+      source: player.Source,
     }));
 
-    // Transform MLB player data
-    const mlbPlayers = jsonData.MLB.map((player) => ({
-      playerName: player["Player Name"],
-      sport: player.Sport,
-      category: player.Category,
-      line: player.Line,
-      typeOfLine: player["Type of Line"],
-      position: player.Position,
-      team: player.Team,
-      opponent: player.Opponent,
-      projection: player.Projection,
-      imageUrl: player.image_url,
-    }));
+    // // Transform MLB player data
+    // const mlbPlayers = jsonData.map((player) => ({
+    //   playerName: player["Player Name"],
+    //   sport: player.Sport,
+    //   category: player.Category,
+    //   line: player.Line,
+    //   typeOfLine: player["Type of Line"],
+    //   position: player.Position,
+    //   team: player.Team,
+    //   opponent: player.Opponent,
+    //   projection: player.Projection,
+    //   imageUrl: player.image_url,
+    // }));
 
     // Insert NBA player data into MongoDB
     await PlayerData.insertMany(nbaPlayers);
 
-    // Insert MLB player data into MongoDB
-    await PlayerData.insertMany(mlbPlayers);
+    // // Insert MLB player data into MongoDB
+    // await PlayerData.insertMany(mlbPlayers);
 
     console.log("Data successfully inserted into MongoDB");
 

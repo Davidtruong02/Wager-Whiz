@@ -16,7 +16,8 @@ const playerDataSchema = new Schema({
     minutesPercentage: { type: String }, // Min %
     projection: { type: Number, required: true },
     dvaPositionDefense: { type: String }, // DVA pos def
-    imageUrl: { type: String }
+    imageUrl: { type: String },
+    source: { type: String },
 });
 
 const PlayerData = model('PlayerData', playerDataSchema);
