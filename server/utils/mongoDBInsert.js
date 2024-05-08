@@ -50,7 +50,7 @@ const insertDataIntoMongoDB = async (jsonData) => {
     console.log("Data successfully inserted into MongoDB");
 
     await populateSports();
-    await populateTeams();
+    // await populateTeams();
   } catch (error) {
     console.error("Error inserting data into MongoDB:", error);
   }
@@ -77,32 +77,32 @@ const populateSports = async () => {
 populateSports();
 
 // Populate teams data
-const populateTeams = async () => {
-  try {
-    const result = await PlayerData.aggregate([
-      {
-        $group: {
-          _id: "$sport",
-          teams: { $addToSet: "$team" },
-        },
-      },
-    ]);
+// const populateTeams = async () => {
+//   try {
+//     const result = await PlayerData.aggregate([
+//       {
+//         $group: {
+//           _id: "$sport",
+//           teams: { $addToSet: "$team" },
+//         },
+//       },
+//     ]);
 
-    const teamsData = result.flatMap(({ _id: sport, teams }) =>
-      teams.map((team) => {
-        console.log(sport, team); // log the team
-        return { sport, team };
-      })
-    );
+//     const teamsData = result.flatMap(({ _id: sport, teams }) =>
+//       teams.map((team) => {
+//         console.log(sport, team); // log the team
+//         return { sport, team };
+//       })
+//     );
 
-    await Team.insertMany(teamsData);
+//     await Team.insertMany(teamsData);
 
-    console.log("Teams data successfully inserted into MongoDB");
-  } catch (error) {
-    console.error("Error inserting teams data into MongoDB:", error);
-  }
-};
+//     console.log("Teams data successfully inserted into MongoDB");
+//   } catch (error) {
+//     console.error("Error inserting teams data into MongoDB:", error);
+//   }
+// };
 
-populateTeams();
+// populateTeams();
 
 module.exports = { insertDataIntoMongoDB };

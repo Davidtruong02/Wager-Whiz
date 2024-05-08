@@ -1,0 +1,298 @@
+[
+    {
+      "sport": "MLB",
+      "team": "ATL",
+      "logo": "https://content.sportslogos.net/logos/54/51/full/atlanta_braves_logo_primary_20221869.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "AZ",
+      "logo": "https://content.sportslogos.net/logos/54/50/full/arizona_diamondbacks_logo_primary_2024_sportslogosnet-3125.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "BAL",
+      "logo": "https://content.sportslogos.net/logos/53/52/thumbs/5258002019.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "BOS",
+      "logo": "https://content.sportslogos.net/logos/53/53/thumbs/c0whfsa9j0vbs079opk2s05lx.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "CHC",
+      "logo": "https://content.sportslogos.net/logos/54/54/full/chicago_cubs_logo_primary_19792956.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "CIN",
+      "logo": "https://content.sportslogos.net/logos/54/56/full/cincinnati_reds_logo_primary_20133208.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "CLE",
+      "logo": "https://content.sportslogos.net/logos/53/6804/full/cleveland_guardians_logo_primary_20227577.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "COL",
+      "logo": "https://content.sportslogos.net/logos/54/58/full/colorado_rockies_logo_primary_20171892.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "CWS",
+      "logo": "https://content.sportslogos.net/logos/53/55/thumbs/oxvkprv7v4inf5dgqdebp0yse.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "DET",
+      "logo": "https://content.sportslogos.net/logos/53/59/thumbs/5989642016.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "HOU",
+      "logo": "https://content.sportslogos.net/logos/53/4929/full/houston_astros_logo_primary_20137038.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "KC",
+      "logo": "https://content.sportslogos.net/logos/53/62/full/kansas_city_royals_logo_primary_20198736.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "LAA",
+      "logo": "https://content.sportslogos.net/logos/53/6521/thumbs/652143892016.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "LAD",
+      "logo": "https://content.sportslogos.net/logos/54/63/full/los_angeles_dodgers_logo_primary_20127886.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "MIA",
+      "logo": "https://content.sportslogos.net/logos/54/3637/full/miami_marlins_logo_primary_20194007.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "MIL",
+      "logo": "https://content.sportslogos.net/logos/54/64/full/6474_milwaukee_brewers-primary-2020.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "MIN",
+      "logo": "https://content.sportslogos.net/logos/53/65/thumbs/6539532023.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "NYM",
+      "logo": "https://content.sportslogos.net/logos/54/67/full/m01gfgeorgvbfw15fy04alujm.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "NYY",
+      "logo": "https://content.sportslogos.net/logos/53/68/full/new_york_yankees_logo_primary_19685115.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "OAK",
+      "logo": "https://content.sportslogos.net/logos/53/69/full/6xk2lpc36146pbg2kydf13e50.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "PHI",
+      "logo": "https://content.sportslogos.net/logos/54/70/full/philadelphia_phillies_logo_primary_20193931.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "PIT",
+      "logo": "https://content.sportslogos.net/logos/54/71/thumbs/7112502014.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "SD",
+      "logo": "https://content.sportslogos.net/logos/54/73/full/7517_san_diego_padres-primary-2020.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "SEA",
+      "logo": "https://content.sportslogos.net/logos/53/75/full/seattle_mariners_logo_primary_19933809.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "SF",
+      "logo": "https://content.sportslogos.net/logos/54/74/thumbs/cpqj6up5bvgpoedg5fwsk20ve.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "STL",
+      "logo": "https://content.sportslogos.net/logos/54/72/thumbs/3zhma0aeq17tktge1huh7yok5.gif"
+    },
+    {
+      "sport": "MLB",
+      "team": "TB",
+      "logo": "https://content.sportslogos.net/logos/53/2535/full/tampa_bay_rays_logo_primary_20196768.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "TEX",
+      "logo": "https://content.sportslogos.net/logos/53/77/full/ajfeh4oqeealq37er15r3673h.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "TOR",
+      "logo": "https://content.sportslogos.net/logos/53/78/full/toronto_blue_jays_logo_primary_20208446.png"
+    },
+    {
+      "sport": "MLB",
+      "team": "WSH",
+      "logo": "https://content.sportslogos.net/logos/54/578/thumbs/rcehah9k0kekjkgzm077fflws.gif"
+    },
+    {
+      "sport": "NBA",
+      "team": "ATL",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "BOS",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "CHA",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "CHI",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "CLE",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "DAL",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "DEN",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "DET",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "GSW",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "HOU",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "IND",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "LAC",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "LAL",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "MEM",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "MIA",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "MIL",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "MIN",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "NOH",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "NYK",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "BKN",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "OKC",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "ORL",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "PHI",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "PHO",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "POR",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "SAC",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "TOR",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "UTH",
+      "logo": ""
+    },
+    {
+      "sport": "NBA",
+      "team": "WAS",
+      "logo": ""
+    }      
+  ]
+  

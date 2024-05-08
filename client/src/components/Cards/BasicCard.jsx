@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
@@ -17,11 +19,28 @@ function BasicCard({
   projection,
   dvaPositionDefense,
   imageUrl,
+  source,
 }) {
+  const [logoUrl, setLogoUrl] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`/api/team/${sport}/${team}`)
+      .then((response) => {
+        setLogoUrl(response.data.logoUrl);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [sport, team]);
+
   return (
     <div className="card-container">
       <div className="card-body">
-        <Card className="card-front" style={{ width: "18rem" }}>
+        <Card
+          className="card-front"
+          style={{ width: "18rem", backgroundImage: `url(${logoUrl})` }}
+        >
           {imageUrl && <Card.Img variant="top" src={imageUrl} />}
           <Card.Body>
             <Card.Title>{playerName}</Card.Title>
@@ -47,6 +66,7 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">DVA Position Defense: {dvaPositionDefense}</p>
             )}
+            <p>Source: {source}</p>
             <Button className="cardButton" variant="primary">
               Add to picks
             </Button>
