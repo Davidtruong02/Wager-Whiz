@@ -26,3 +26,7 @@
 .card-back {
   transform: rotateY(180deg) !important;
 }
+
+.cardButton {
+  bottom: 0;
+}
