@@ -47,7 +47,9 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">DVA Position Defense: {dvaPositionDefense}</p>
             )}
-            <Button variant="primary">Add to picks</Button>
+            <Button className="cardButton" variant="primary">
+              Add to picks
+            </Button>
           </Card.Body>
         </Card>
       </div>
