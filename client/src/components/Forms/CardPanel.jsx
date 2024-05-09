@@ -7,7 +7,7 @@ import { Tab, Nav, Row, Col } from "react-bootstrap";
 
 function CardPanel({ selectedSport }) {
   const [playerData, setPlayerData] = useState([]);
-  const [activeTab, setActiveTab] = useState("first"); // Add this state variable
+  const [activeTab, setActiveTab] = useState("first");
 
   useEffect(() => {
     if (selectedSport) {
@@ -22,7 +22,11 @@ function CardPanel({ selectedSport }) {
   }, [selectedSport]);
 
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+    <Tab.Container
+      id="left-tabs-example"
+      defaultActiveKey="first"
+      style={{ minHeight: "100vh" }}
+    >
       <Row>
         <Col sm={12}>
           <Nav

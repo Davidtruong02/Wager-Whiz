@@ -39,12 +39,10 @@ function Home() {
         setSelectedSport={setSelectedSport}
         onSignUpClick={handleSignUpClick}
       />{" "}
-      {/* pass the handleSignUpClick function as a prop */}
       {!loggedIn && <LoggedOut />}
       {loggedIn && !selectedSport && <LoggedIn />}
       {loggedIn && selectedSport && <CardPanel selectedSport={selectedSport} />}
       <SignUpModal show={showSignUpModal} handleClose={handleClose} />{" "}
-      {/* add the SignUpModal component */}
     </>
   );
 }
