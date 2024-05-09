@@ -21,19 +21,6 @@ function BasicCard({
   imageUrl,
   source,
 }) {
-  const [logoUrl, setLogoUrl] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`/api/team/${sport}/${team}`)
-      .then((response) => {
-        setLogoUrl(response.data.logoUrl);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [sport, team]);
-
   const calculateScore = () => {
     if (line) {
       return ((projection / line) * 100 - 100).toFixed(2);

@@ -33,9 +33,33 @@
   color: white;
 }
 
+.tosModal .modal-dialog {
+  max-width: 50%; /* adjust this value as needed */
+  top: 10%;
+  height: auto;
+  margin: auto;
+}
+
+.tosModal .modal-content {
+  background-color: #1d1e22; 
+  color: white;
+}
+
+.tosContainer {
+  margin: 10px;
+}
+
+.tosAccept {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
 .currentBoard .dropdown-menu {
   background-color: #1d1e22;
 }
+
+
 
 .currentBoard .dropdown-item {
   color: white;
