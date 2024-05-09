@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
 
+
 function BasicCard({
+  _id,
   playerName,
   sport,
   category,
@@ -34,12 +36,35 @@ function BasicCard({
       });
   }, [sport, team]);
 
+  const calculateScore = () => {
+    if (line) {
+      return ((projection / line) * 100 - 100).toFixed(2);
+    }
+    return 0;
+  };
+
+  const score = calculateScore();
+  const handleClick = (e) => {
+    console.log(e.target.id)
+  };
+
+
   return (
-    <div className="card-container">
+    <div
+    data-playerid ={_id}
+      className="card-container"
+      style={{ marginBottom: "-175px", minHeight: "100%" }}
+    >
       <div className="card-body">
         <Card
-          className="card-front"
-          style={{ width: "18rem", backgroundImage: `url(${logoUrl})` }}
+        
+          className= "card-front"
+          style={{
+            width: "18rem",
+            maxHeight: "60%",
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundSize: "contain",
+          }}
         >
           {imageUrl && <Card.Img variant="top" src={imageUrl} />}
           <Card.Body>
@@ -66,8 +91,7 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">DVA Position Defense: {dvaPositionDefense}</p>
             )}
-            <p>Source: {source}</p>
-            <Button className="cardButton" variant="primary">
+            <Button id={_id} onClick={handleClick} className="cardButton" variant="primary">
               Add to picks
             </Button>
           </Card.Body>
