@@ -18,7 +18,7 @@ function TOSForm({ setTosModalShow, setTosChecked }) {
 
         <h4 style={{ textDecoration: "underline" }}>Disclaimer:</h4>
         <p>
-          WagerWhiz does not claim ownership of the rights to NBA or MLB team
+          WagerWhiz does not claim ownership the the rights to NBA or MLB team
           and brand logos and trademarks. All such rights belong to their
           respective owners.
         </p>
@@ -42,8 +42,14 @@ function TOSForm({ setTosModalShow, setTosChecked }) {
           For assistance with gambling addiction, we recommend contacting
           Gamblers Anonymous or seeking support from other appropriate
           resources. Visit the{" "}
-          <a href="https://www.gamblersanonymous.org/ga/">GA website</a> or call
-          1-800-GAMBLER.
+          <a
+            href="https://www.gamblersanonymous.org/ga/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GA website
+          </a>{" "}
+          or call 1-800-GAMBLER.
         </p>
 
         <h4 style={{ textDecoration: "underline" }}>Contact Us:</h4>
