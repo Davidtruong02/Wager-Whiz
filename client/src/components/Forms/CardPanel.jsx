@@ -13,7 +13,16 @@ function CardPanel({ selectedSport }) {
     if (selectedSport) {
       Axios.get(`/api/players/playerDatas/${selectedSport}`)
         .then((response) => {
-          setPlayerData(response.data);
+          const playersWithScores = response.data.map((player) => ({
+            ...player,
+            score: player.line
+              ? (player.projection / player.line) * 100 - 100
+              : 0,
+          }));
+          const sortedPlayers = playersWithScores.sort(
+            (a, b) => b.score - a.score
+          );
+          setPlayerData(sortedPlayers);
         })
         .catch((error) => {
           console.error("Error fetching player data:", error);
@@ -83,6 +92,7 @@ function CardPanel({ selectedSport }) {
                       dvaPositionDefense={player.dvaPositionDefense}
                       imageUrl={player.imageUrl}
                       source={player.source}
+                      score={player.score}
                     />
                   ))}
               </div>
@@ -109,6 +119,7 @@ function CardPanel({ selectedSport }) {
                       dvaPositionDefense={player.dvaPositionDefense}
                       imageUrl={player.imageUrl}
                       source={player.source}
+                      score={player.score}
                     />
                   ))}
               </div>

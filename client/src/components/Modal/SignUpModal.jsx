@@ -1,17 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { gql } from "@apollo/client";
+import { Link } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Container from "react-bootstrap/Container";
 import { useMutation, useQuery } from "@apollo/client";
 import Auth from "../../utils/auth.js";
 import { CHECK_USERNAME } from "../../utils/queries.js";
 import { ADD_USER } from "../../utils/mutations.js";
 import { SIGNUP_USER } from "../../utils/mutations";
+import TOS from "../Modal/TOS.jsx";
 import "../../App.css";
 import "../../App.jsx";
-
 
 // Sign Up Modal
 function SignUpModal({ show, handleClose }) {
@@ -25,6 +27,8 @@ function SignUpModal({ show, handleClose }) {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [shouldClose, setShouldClose] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
+  const [tosChecked, setTosChecked] = useState(false);
+  const [tosModalShow, setTosModalShow] = useState(false);
 
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
@@ -84,19 +88,20 @@ function SignUpModal({ show, handleClose }) {
     }
   }, [shouldClose, handleClose]);
 
-  const stripePromise = loadStripe("pk_test_51PELwo02NrnR8qBBNEnb3SZo0100bZxh3mCxWD0I9VhnJLNYOvZv5GAnH9ZzkSDvXYa0G7GAHc3KiZhFJGj6Wkqh00wY6SyI2D");
+  const stripePromise = loadStripe(
+    "pk_test_51PELwo02NrnR8qBBNEnb3SZo0100bZxh3mCxWD0I9VhnJLNYOvZv5GAnH9ZzkSDvXYa0G7GAHc3KiZhFJGj6Wkqh00wY6SyI2D"
+  );
 
-  stripePromise.then((stripe) =>{
+  stripePromise.then((stripe) => {
     const elements = stripe.elements();
 
-    const cardElement = elements.create('card');
+    const cardElement = elements.create("card");
 
     cardElement.mount("#card-element");
 
-    cardElement.on('Sign Up', (event) => ((res) => {
+    cardElement.on("Sign Up", (event) => (res) => {
       res.redirectToCurrentBoard({ sessionId: data.currentBoard.session });
-      }
-    ));
+    });
   });
 
   return (
@@ -166,22 +171,61 @@ function SignUpModal({ show, handleClose }) {
             </Form.Group>
           </Form>
         </Modal.Body>
+        <Container
+          style={{ padding: "10px" }}
+          className="d-flex justify-content-center"
+        >
+          <Form.Check
+            type="checkbox"
+            required
+            checked={tosChecked}
+            onChange={(e) => setTosChecked(e.target.checked)}
+            disabled
+            label={
+              <>
+                I agree to the{" "}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setTosModalShow(true);
+                  }}
+                >
+                  Terms of Service
+                </a>
+              </>
+            }
+          />
+        </Container>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="primary"
-            onClick={async () => {
-              const userCreated = await handleFormSubmit();
-              if (userCreated) {
-                handleClose();
-              }
-            }}
-          >
-            Create user!
-          </Button>
+          {!tosChecked ? (
+            <Button variant="secondary" disabled>
+              Create user!
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={async () => {
+                const userCreated = await handleFormSubmit();
+                if (userCreated) {
+                  handleClose();
+                }
+              }}
+            >
+              Create user!
+            </Button>
+          )}
         </Modal.Footer>
+        <TOS
+          show={tosModalShow}
+          onHide={() => setTosModalShow(false)}
+          setTosModalShow={setTosModalShow}
+          tosChecked={tosChecked}
+          setTosChecked={setTosChecked}
+        />
       </Modal>
     </>
   );
