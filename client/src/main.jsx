@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 //import SingleThought from './pages/SingleThought';
 import Profile from "./pages/Profile";
 import Error from "./pages/Error";
+import SubscriptionExpired from "./pages/SubscriptionExpired";
 
 const router = createBrowserRouter([
   {
@@ -36,13 +37,15 @@ const router = createBrowserRouter([
         path: "/profiles/:profileId",
         element: <Profile />,
       },
-      //{
-      //   path: '/thoughts/:thoughtId',
-      //   element: <SingleThought />
-      // }
     ],
   },
 ]);
+
+const isTrail = true; 
+
+if (!isTrail) {
+  router.error = <SubscriptionExpired />;
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />

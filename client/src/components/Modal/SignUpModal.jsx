@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { gql } from "@apollo/client";
+import { loadStripe } from "@stripe/stripe-js";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -10,6 +11,7 @@ import { ADD_USER } from "../../utils/mutations.js";
 import { SIGNUP_USER } from "../../utils/mutations";
 import "../../App.css";
 import "../../App.jsx";
+
 
 // Sign Up Modal
 function SignUpModal({ show, handleClose }) {
@@ -81,6 +83,21 @@ function SignUpModal({ show, handleClose }) {
       handleClose();
     }
   }, [shouldClose, handleClose]);
+
+  const stripePromise = loadStripe("pk_test_51PELwo02NrnR8qBBNEnb3SZo0100bZxh3mCxWD0I9VhnJLNYOvZv5GAnH9ZzkSDvXYa0G7GAHc3KiZhFJGj6Wkqh00wY6SyI2D");
+
+  stripePromise.then((stripe) =>{
+    const elements = stripe.elements();
+
+    const cardElement = elements.create('card');
+
+    cardElement.mount("#card-element");
+
+    cardElement.on('Sign Up', (event) => ((res) => {
+      res.redirectToCurrentBoard({ sessionId: data.currentBoard.session });
+      }
+    ));
+  });
 
   return (
     <>
