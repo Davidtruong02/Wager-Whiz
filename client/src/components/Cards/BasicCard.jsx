@@ -31,6 +31,7 @@ function BasicCard({
   };
 
 
+
   const score = calculateScore();
   const handleClick = (e) => {
     console.log(e.target.id)
@@ -44,7 +45,6 @@ function BasicCard({
     >
       <div className="card-body">
         <Card
-        
           className= "card-front"
           style={{
             width: "18rem",
@@ -118,7 +118,9 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
+
             <Button id={_id} onClick={handleClick} className="cardButton" variant="primary">
+
               Add to picks
             </Button>
           </Card.Body>
