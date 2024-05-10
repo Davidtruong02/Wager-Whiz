@@ -1,12 +1,28 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
-const myPicks = require("../../models/myPicks");
-const { PlayerData } = require("../../models");
+const MyPicks = require("../../models/myPicks"); // Assuming you have a MyPick model
 
+router.post("/", (req, res) => {
+  const { username, ...playerData } = req.body;
+  console.log("=========================");
+  console.log(req.body);
+  console.log("=========================");
 
-router.post("/", async (req, res) => {
-  const {username, ...playerData} = req.body;
-  
+  const myPicks = new MyPicks({
+    username, // convert username to ObjectId
+    ...playerData,
+  });
+
+  myPicks
+    .save()
+    .then(() => res.json("Player added to my picks!"))
+    .catch((err) => {
+      console.log("=========================");
+      console.log(err); // Log the error
+      console.log("=========================");
+      res.status(400).json("Error: " + err);
+    });
 });
 
 module.exports = router;
