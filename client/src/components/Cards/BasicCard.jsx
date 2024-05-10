@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
+import CountdownTimer from "./CountdownTimer";
 import demonImage from "../../images/demon.jpg";
 import goblinImage from "../../images/goblin.jpg";
 
@@ -23,6 +24,7 @@ function BasicCard({
   dvaPositionDefense,
   imageUrl,
   source,
+  start_time,
 }) {
   const calculateScore = () => {
     if (line) {
@@ -51,6 +53,7 @@ function BasicCard({
       dvaPositionDefense,
       imageUrl,
       source,
+      start_time,
     };
 
     // Get the id_token from local storage
@@ -154,7 +157,6 @@ function BasicCard({
                 style={{
                   color: score < 0 ? "red" : "green",
                   fontWeight: "bolder",
-                  // textShadow: "2px 2px #000",
                 }}
                 className="mb-2"
               >
@@ -166,7 +168,12 @@ function BasicCard({
                 Prop: {line} {category}
               </p>
             )}
-            {/* {line && <p className="mb-2">Line: {line}</p>} */}
+            {start_time && (
+              <div className="mb-2 start-time">
+                {/* <p>Start Time: {start_time}</p> */}
+                <CountdownTimer startTime={start_time} /> {/* Include the CountdownTimer component */}
+              </div>
+            )}
           </Card.Body>
         </Card>
         <Card
@@ -182,15 +189,12 @@ function BasicCard({
             {usagePercent && (
               <p className="mb-2">Usage Percent: {usagePercent}%</p>
             )}
-
             {typeOfLine && <p className="mb-2">Type of Line: {typeOfLine}</p>}
-
             {minutes && minutesPercentage && (
               <p className="mb-2">
                 Minutes: {minutes} ({minutesPercentage})
               </p>
             )}
-
             {dvaPositionDefense && (
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
