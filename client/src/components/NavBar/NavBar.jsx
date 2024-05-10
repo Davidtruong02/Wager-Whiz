@@ -13,8 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBasketballBall,
   faBaseballBall,
-  faHockeyPuck,
-  faGamepad,
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import Auth from "../../utils/auth";
@@ -26,10 +24,6 @@ function getSportIcon(sport) {
       return faBasketballBall;
     case "mlb":
       return faBaseballBall;
-    case "nfl":
-      return faFootballBall;
-    case "nhl":
-      return faHockeyPuck;
     default:
       // If the sport isn't in the mapping, return a default icon
       return faQuestion;
@@ -135,28 +129,64 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
             }
           }}
         >
-          {loggedIn &&
-            (loading ? (
-              <div>Loading...</div> // Replace this with a loading spinner or any other loading indicator
-            ) : (
-              sports.map((sport) => {
-                return (
-                  <NavDropdown.Item
-                    key={sport._id}
-                    onClick={() => {
-                      console.log("Sport selected:", sport.sport);
-                      setSelectedSport(sport.sport); // Update the selected sport
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={getSportIcon(sport.sport)}
-                      style={{ color: "white" }}
-                    />{" "}
-                    {sport.sport}
-                  </NavDropdown.Item>
-                );
-              })
-            ))}
+          {loggedIn ? (
+            <>
+              <NavDropdown.Item
+                key="MLB"
+                onClick={async () => {
+                  const sport = "mlb";
+                  console.log("Sport selected: " + sport);
+                  setSelectedSport(sport);
+                  try {
+                    console.log("--------------------------------------------");
+                    console.log(`Sport selected: ${sport}`);
+                    console.log("--------------------------------------------");
+                    const response = await Axios.get(
+                      `/api/playerRoutesMLB/${sport}`
+                    );
+                    console.log(response.data); // Log the response data for debugging
+                  } catch (error) {
+                    console.error("Error fetching MLB players:", error);
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={getSportIcon("MLB")}
+                  style={{ color: "white" }}
+                />{" "}
+                MLB
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                key="NBA"
+                onClick={async () => {
+                  const sport = "nba";
+                  console.log("Sport selected: " + sport);
+                  setSelectedSport(sport); // Update the selected sport to NBA
+                  try {
+                    console.log("--------------------------------------------");
+                    console.log(`Sport selected: ${sport}`);
+                    console.log("--------------------------------------------");
+                    const response = await Axios.get(
+                      `/api/playerRoutesNBA/${sport}`
+                    );
+                    console.log(response.data); // Log the response data for debugging
+                  } catch (error) {
+                    console.error("Error fetching NBA players:", error);
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={getSportIcon("NBA")}
+                  style={{ color: "white" }}
+                />{" "}
+                NBA
+              </NavDropdown.Item>
+            </>
+          ) : (
+            <NavDropdown.Item disabled>
+              Please log in to see options
+            </NavDropdown.Item>
+          )}
         </NavDropdown>
         {loggedIn && (
           <Button
