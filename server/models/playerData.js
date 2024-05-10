@@ -4,7 +4,7 @@ const { Schema, model } = require('mongoose');
 
 const playerDataSchema = new Schema({
     playerName: { type: String, required: true },
-    sport: { type: String, required: true },
+    sport: { type: String, required: true, enum: ['MLB', 'NBA'] }, // Added enum validation for MLB and NBA
     category: { type: String, required: true },
     line: { type: Number, required: true },
     typeOfLine: { type: String, required: true },
