@@ -1,3 +1,10 @@
+body {
+  min-height: 100vh !important;
+  background-color: #1d1e22 !important;
+}
+
+
+
 .loggedOut {
   height: 100vh;
   margin: 0;

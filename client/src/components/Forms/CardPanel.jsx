@@ -12,6 +12,16 @@ import MLBLogo from "../../images/MLB2.png";
 function CardPanel({ selectedSport }) {
   const [playerData, setPlayerData] = useState([]);
   const [activeTab, setActiveTab] = useState("first");
+  const [searchInput, setSearchInput] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Sort by...");
+
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  };
 
   useEffect(() => {
     if (selectedSport) {
@@ -37,6 +47,8 @@ function CardPanel({ selectedSport }) {
     }
   }, [selectedSport]);
 
+  let sortedAndFilteredPlayers = playerData;
+
   return (
     <Tab.Container
       id="left-tabs-example"
@@ -51,11 +63,6 @@ function CardPanel({ selectedSport }) {
               src={selectedSport === "mlb" ? MLBLogo : NBALogo}
               alt={selectedSport}
             />
-            {/* <img
-              style={{ height: "25%", width: "25%" }}
-              src={selectedSport === "NBA" ? MLBLogo : NBALogo}
-              alt={selectedSport}
-            /> */}
           </div>
           <div className="d-flex justify-content-between align-items-center">
             <Nav
@@ -88,17 +95,31 @@ function CardPanel({ selectedSport }) {
             <div className="d-flex">
               <Form.Control
                 type="text"
-                placeholder="Search player"
+                placeholder="Search for player or team name"
                 className="mr-2"
+                value={searchInput}
+                onChange={handleInputChange}
+                style={{ width: "300px" }}
               />
-              <Button variant="primary">Search</Button>
-              <Form.Control as="select" className="ml-2 mr-2">
+              {/* <Button className="searchButton" variant="primary">
+                Search
+              </Button> */}
+              <Form.Select
+                // as="select"
+                className="ml-2 mr-2"
+                value={selectedOption}
+                onChange={handleOptionChange}
+                style={{ width: "200px" }}
+              >
                 <option>Sort by...</option>
-                <option>Option 1</option>
-                <option>Option 2</option>
+                <option>Projection asc</option>
+                <option>Projection desc</option>
+                <option>Team</option>
+                <option>Prop</option>
+                <option>Type of line</option>
                 // Add more options as needed
-              </Form.Control>
-              <Button variant="primary">Sort</Button>
+              </Form.Select>
+              {/* <Button variant="primary">Sort</Button> */}
             </div>
           </div>
         </Col>
@@ -108,9 +129,52 @@ function CardPanel({ selectedSport }) {
           <Tab.Content>
             <Tab.Pane eventKey="first">
               <div className="playerCards">
-                {playerData
-                  .filter((data) => data.source === "PrizePicks")
-                  .map((player) => (
+                {(() => {
+                  let sortedAndFilteredPlayers = playerData.filter(
+                    (data) =>
+                      data.source === "PrizePicks" &&
+                      (data.playerName
+                        .toLowerCase()
+                        .includes(searchInput.toLowerCase()) ||
+                        data.team
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase()))
+                  );
+
+                  switch (selectedOption) {
+                    case "Projection asc":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.score - b.score
+                      );
+                      break;
+                    case "Projection desc":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => b.score - a.score
+                      );
+                      break;
+                    case "Team":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.team.localeCompare(b.team)
+                      );
+                      break;
+                    case "Prop":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.category.localeCompare(b.category)
+                      );
+                      break;
+                    case "Type of line":
+                      const order = ["goblin", "demon", "standard", "none"];
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) =>
+                          order.indexOf(a.typeOfLine.trim().toLowerCase()) -
+                          order.indexOf(b.typeOfLine.trim().toLowerCase())
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+
+                  return sortedAndFilteredPlayers.map((player) => (
                     <BasicCard
                       _id={player._id}
                       key={player._id}
@@ -131,15 +195,60 @@ function CardPanel({ selectedSport }) {
                       source={player.source}
                       score={player.score}
                     />
-                  ))}
+                  ));
+                })()}
               </div>
             </Tab.Pane>
             <Tab.Pane eventKey="second">
               <div className="playerCards">
-                {playerData
-                  .filter((data) => data.source === "UnderDog")
-                  .map((player) => (
+                {(() => {
+                  let sortedAndFilteredPlayers = playerData.filter(
+                    (data) =>
+                      data.source === "UnderDog" &&
+                      (data.playerName
+                        .toLowerCase()
+                        .includes(searchInput.toLowerCase()) ||
+                        data.team
+                          .toLowerCase()
+                          .includes(searchInput.toLowerCase()))
+                  );
+
+                  switch (selectedOption) {
+                    case "Projection asc":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.score - b.score
+                      );
+                      break;
+                    case "Projection desc":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => b.score - a.score
+                      );
+                      break;
+                    case "Team":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.team.localeCompare(b.team)
+                      );
+                      break;
+                    case "Prop":
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) => a.category.localeCompare(b.category)
+                      );
+                      break;
+                    case "Type of line":
+                      const order = ["goblin", "demon", "standard", "none"];
+                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
+                        (a, b) =>
+                          order.indexOf(a.typeOfLine.trim().toLowerCase()) -
+                          order.indexOf(b.typeOfLine.trim().toLowerCase())
+                      );
+                      break;
+                    default:
+                      break;
+                  }
+
+                  return sortedAndFilteredPlayers.map((player) => (
                     <BasicCard
+                      _id={player._id}
                       key={player._id}
                       playerName={player.playerName}
                       sport={player.sport}
@@ -158,7 +267,8 @@ function CardPanel({ selectedSport }) {
                       source={player.source}
                       score={player.score}
                     />
-                  ))}
+                  ));
+                })()}
               </div>
             </Tab.Pane>
           </Tab.Content>
