@@ -141,11 +141,10 @@ function BasicCard({
             <div style={{ fontSize: "20px", fontWeight: "bold" }}>
               {playerName}
             </div>
-            {opponent && (
+            {opponent && start_time && (
               <p className="mb-2">
-                vs {opponent}{" "}
-                {new Date().toLocaleString("en-US", {
-                  weekday: "long",
+                {opponent}{" at "}
+                {new Date(start_time).toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                   hour12: true,
@@ -168,12 +167,9 @@ function BasicCard({
                 Prop: {line} {category}
               </p>
             )}
-            {start_time && (
               <div className="mb-2 start-time">
-                {/* <p>Start Time: {start_time}</p> */}
                 <CountdownTimer startTime={start_time} /> {/* Include the CountdownTimer component */}
               </div>
-            )}
           </Card.Body>
         </Card>
         <Card
