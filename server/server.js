@@ -8,7 +8,7 @@ const { fetchDataFromAWS } = require("./utils/apiCalls"); // Import the function
 const db = require("./config/connection"); // Import database connection
 // const apiRoutes = require("./routes/apiRoutes");
 // const playerRoutes = require("./routes/playerRoutes");
-const routes = require('./routes');
+const routes = require("./routes");
 
 const { typeDefs, resolvers } = require("./schemas");
 
@@ -45,7 +45,7 @@ const startApolloServer = async () => {
   db.once("open", () => {
     console.log("Database connected.");
 
-    fetchDataFromAWS(); // Optional: Fetch and store data upon database connection
+    // fetchDataFromAWS(); // Optional: Fetch and store data upon database connection
 
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);

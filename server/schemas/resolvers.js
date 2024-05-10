@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { PlayerData } = require('../models');
+const { PlayerData } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -28,13 +28,13 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError('User not found');
+        throw new AuthenticationError("User not found");
       }
 
-      const correctPw = await user.isCorrectPassword(password);
+      const correctPassword = await user.isCorrectPassword(password);
 
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect password');
+      if (!correctPassword) {
+        throw new AuthenticationError("Incorrect password");
       }
 
       const token = signToken(user);
@@ -42,7 +42,7 @@ const resolvers = {
       return { token, user };
     },
     // other mutations...
-  }
+  },
 };
-    
+
 module.exports = resolvers;

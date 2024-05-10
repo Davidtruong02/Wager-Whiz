@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
 import CountdownTimer from "./CountdownTimer";
+import demonImage from "../../images/demon.jpg";
+import goblinImage from "../../images/goblin.jpg";
 
 function BasicCard({
   playerName,
@@ -58,17 +60,8 @@ function BasicCard({
     const idToken = localStorage.getItem("id_token");
 
     // Decrypt the id_token to get the username
-    console.log("===============================");
-    console.log(idToken);
-    console.log("===============================");
     const decodedToken = jwt_decode(idToken);
     const username = decodedToken.authenticatedPerson.username;
-    console.log("===============================");
-    console.log(decodedToken);
-    console.log("===============================");
-    console.log("===============================");
-    console.log(username);
-    console.log("===============================");
 
     axios
       .post("/api/myPicks", {
@@ -90,14 +83,43 @@ function BasicCard({
     >
       <div className="card-body">
         <Card
-          className= "card-front"
+          className="card-front"
           style={{
             width: "18rem",
             maxHeight: "60%",
             backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
             backgroundSize: "contain",
+            position: "relative", // Add this to position the demon image
           }}
         >
+          {typeOfLine === "demon" && (
+            <img
+              src={demonImage}
+              alt="Demon"
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                width: "25px",
+                height: "25px",
+                transform: "rotate(15deg)",
+              }}
+            />
+          )}
+          {typeOfLine === "goblin" && (
+            <img
+              src={goblinImage}
+              alt="Goblin"
+              style={{
+                position: "fixed", // or "absolute"
+                top: 10,
+                right: 10,
+                width: "25px",
+                height: "25px",
+                transform: "rotate(15deg)",
+              }}
+            />
+          )}
           {imageUrl && (
             <Card.Img
               style={{
@@ -116,8 +138,20 @@ function BasicCard({
               {team && `${team} - `}
               {position}
             </Card.Title>
-            {playerName}
-            {opponent && <p className="mb-2">Opponent: {opponent}</p>}
+            <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+              {playerName}
+            </div>
+            {opponent && (
+              <p className="mb-2">
+                vs {opponent}{" "}
+                {new Date().toLocaleString("en-US", {
+                  weekday: "long",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </p>
+            )}
             {projection && line && (
               <p
                 style={{
@@ -164,7 +198,12 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
-            <Button onClick={handleCardButtonClick} className="cardButton" variant="primary">
+
+            <Button
+              onClick={handleCardButtonClick}
+              className="cardButton"
+              variant="primary"
+            >
               Add to picks
             </Button>
           </Card.Body>
