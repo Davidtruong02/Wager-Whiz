@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import prizePicksIcon from "../../images/PrizePicks.png";
-import underDogIcon from "../../images/underDog.png";
+import underDogIcon from "../../images/underdog.png";
 import Axios from "axios";
 import BasicCard from "../Cards/BasicCard";
 import Button from "react-bootstrap/Button";
