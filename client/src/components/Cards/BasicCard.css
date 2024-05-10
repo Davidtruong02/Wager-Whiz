@@ -33,3 +33,9 @@
 .cardButton {
   bottom: 0;
 }
+
+.start-time {
+  font-weight: bold;
+  color: #333;
+  font-size: small;
+}

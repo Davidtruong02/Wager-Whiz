@@ -24,8 +24,9 @@ const insertDataIntoMongoDB = async (jsonData, sport) => {
       minutesPercentage: player["Min %"] || null, // Default to null if not available
       projection: player.Projection || 0, // Default to 0 if missing
       dvaPositionDefense: player["DVA pos def"] || 'None', // Default to 'None' if not available
-      imageUrl: player.image_url || 'https://example.com/default_image.png', // Provide a default image URL
+      imageUrl: player.image_url || 'https://static.prizepicks.com/images/players/placeholder.png', // Provide a default image URL
       source: player.Source || 'Unknown Source', // Default to 'Unknown Source' if missing
+      start_time: player.start_time || 'Unknown Start Time', // Default to 'Unknown Start Time' if missing
     }));
 
     // Insert player data into MongoDB

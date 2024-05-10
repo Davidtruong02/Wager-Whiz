@@ -18,6 +18,7 @@ const playerDataSchema = new Schema({
     dvaPositionDefense: { type: String }, // DVA pos def
     imageUrl: { type: String },
     source: { type: String },
+    start_time: { type: String },
 });
 
 const PlayerData = model('PlayerData', playerDataSchema);

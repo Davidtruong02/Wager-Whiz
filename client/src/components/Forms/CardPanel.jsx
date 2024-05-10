@@ -126,6 +126,7 @@ function CardPanel({ selectedSport }) {
                       dvaPositionDefense={player.dvaPositionDefense}
                       imageUrl={player.imageUrl}
                       source={player.source}
+                      start_time={player.start_time}
                       score={player.score}
                     />
                   ))}
@@ -153,6 +154,7 @@ function CardPanel({ selectedSport }) {
                       dvaPositionDefense={player.dvaPositionDefense}
                       imageUrl={player.imageUrl}
                       source={player.source}
+                      start_time={player.start_time}
                       score={player.score}
                     />
                   ))}
