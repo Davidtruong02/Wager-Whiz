@@ -1,12 +1,11 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
 
-
 function BasicCard({
-  _id,
   playerName,
   sport,
   category,
@@ -30,13 +29,56 @@ function BasicCard({
     return 0;
   };
 
-
-
   const score = calculateScore();
-  const handleClick = (e) => {
-    console.log(e.target.id)
-  };
 
+  const handleCardButtonClick = () => {
+    console.log("handleCardButtonClick called");
+    const player = {
+      playerName,
+      sport,
+      category,
+      line,
+      typeOfLine,
+      position,
+      team,
+      opponent,
+      usagePercent,
+      minutes,
+      minutesPercentage,
+      projection,
+      dvaPositionDefense,
+      imageUrl,
+      source,
+    };
+
+    // Get the id_token from local storage
+    const idToken = localStorage.getItem("id_token");
+
+    // Decrypt the id_token to get the username
+    console.log("===============================");
+    console.log(idToken);
+    console.log("===============================");
+    const decodedToken = jwt_decode(idToken);
+    const username = decodedToken.authenticatedPerson.username;
+    console.log("===============================");
+    console.log(decodedToken);
+    console.log("===============================");
+    console.log("===============================");
+    console.log(username);
+    console.log("===============================");
+
+    axios
+      .post("/api/myPicks", {
+        ...player,
+        username: username,
+      })
+      .then((response) => {
+        console.log("Player data added to my picks:", response);
+      })
+      .catch((error) => {
+        console.error("Error adding player data to my picks:", error);
+      });
+  };
 
   return (
     <div
@@ -119,7 +161,7 @@ function BasicCard({
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
 
-            <Button id={_id} onClick={handleClick} className="cardButton" variant="primary">
+            <Button onClick={handleCardButtonClick} className="cardButton" variant="primary">
 
               Add to picks
             </Button>
@@ -130,7 +172,5 @@ function BasicCard({
   );
 }
 
-axios 
- .post
 
 export default BasicCard;
