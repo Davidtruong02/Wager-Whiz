@@ -1,5 +1,6 @@
 .card-container {
   perspective: 1000px !important;
+  min-height: 100%;
 }
 
 .card-body {
@@ -9,6 +10,8 @@
   text-align: center !important;
   transition: transform 0.6s !important;
   transform-style: preserve-3d !important;
+;
+  
 }
 
 .card-container:hover > .card-body {
