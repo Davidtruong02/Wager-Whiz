@@ -15,7 +15,10 @@ function CardPanel({ selectedSport }) {
 
   useEffect(() => {
     if (selectedSport) {
-      Axios.get(`/api/players/playerDatas/${selectedSport}`)
+      // Determine the API endpoint based on the selected sport
+      const apiEndpoint = `/api/playerRoutes${selectedSport}`;
+
+      Axios.get(apiEndpoint)
         .then((response) => {
           const playersWithScores = response.data.map((player) => ({
             ...player,
@@ -45,7 +48,7 @@ function CardPanel({ selectedSport }) {
           <div className="d-flex justify-content-center">
             <img
               style={{ height: "25%", width: "25%" }}
-              src={selectedSport === "NBA" ? NBALogo : MLBLogo}
+              src={selectedSport === "mlb" ? MLBLogo : NBALogo}
               alt={selectedSport}
             />
             {/* <img
