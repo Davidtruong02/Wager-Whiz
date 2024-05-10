@@ -18,6 +18,7 @@ const myPicksSchema = new Schema({
     dvaPositionDefense: { type: String }, // DVA pos def
     imageUrl: { type: String },
     source: { type: String },
+    username: { type: String, required: true}
 });
 
 const myPicks = model('myPicks', myPicksSchema);

@@ -109,6 +109,7 @@ function CardPanel({ selectedSport }) {
                   .filter((data) => data.source === "PrizePicks")
                   .map((player) => (
                     <BasicCard
+                      _id={player._id}
                       key={player._id}
                       playerName={player.playerName}
                       sport={player.sport}

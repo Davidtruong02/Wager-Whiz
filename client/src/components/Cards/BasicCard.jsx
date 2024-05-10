@@ -4,7 +4,9 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "./BasicCard.css";
 
+
 function BasicCard({
+  _id,
   playerName,
   sport,
   category,
@@ -28,7 +30,13 @@ function BasicCard({
     return 0;
   };
 
+
+
   const score = calculateScore();
+  const handleClick = (e) => {
+    console.log(e.target.id)
+  };
+
 
   return (
     <div
@@ -37,7 +45,7 @@ function BasicCard({
     >
       <div className="card-body">
         <Card
-          className="card-front"
+          className= "card-front"
           style={{
             width: "18rem",
             maxHeight: "60%",
@@ -110,7 +118,9 @@ function BasicCard({
             {dvaPositionDefense && (
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
-            <Button className="cardButton" variant="primary">
+
+            <Button id={_id} onClick={handleClick} className="cardButton" variant="primary">
+
               Add to picks
             </Button>
           </Card.Body>
@@ -119,5 +129,8 @@ function BasicCard({
     </div>
   );
 }
+
+axios 
+ .post
 
 export default BasicCard;
