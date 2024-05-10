@@ -26,7 +26,6 @@ const insertDataIntoMongoDB = async (jsonData, sport) => {
       imageUrl: player.image_url || 'https://static.prizepicks.com/images/players/placeholder.png', // Provide a default image URL
       source: player.Source || 'Unknown Source', // Default to 'Unknown Source' if missing
       start_time: player.start_time || 'Unknown Start Time', // Default to 'Unknown Start Time' if missing
-
     }));
 
     // Get the model for the sport

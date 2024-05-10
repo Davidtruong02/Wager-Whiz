@@ -31,7 +31,6 @@ function CountdownTimer({ startTime }) {
 
   return (
     <div className="countdown-timer">
-      <p className="mb-2 start-time">Start Time: {startTime}</p>
       <p className="mb-2">
         Time until start: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
       </p>
