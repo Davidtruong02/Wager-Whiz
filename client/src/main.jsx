@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const isTrail = true; 
+const isTrail = true;
 
 if (!isTrail) {
   router.error = <SubscriptionExpired />;

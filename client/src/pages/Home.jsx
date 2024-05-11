@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoggedOut from "../components/Forms/LoggedOut";
 import LoggedIn from "../components/Forms/LoggedIn";
 import CardPanel from "../components/Forms/CardPanel";
+import MyPicks from "../components/Forms/MyPicks";
 import Auth from "../utils/auth";
 import SignUpModal from "../components/Modal/SignUpModal"; // import your SignUpModal component
 
@@ -12,7 +13,8 @@ function Home() {
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [selectedSport, setSelectedSport] = useState(null);
-  const [showSignUpModal, setShowSignUpModal] = useState(false); // add this state
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showMyPicks, setShowMyPicks] = useState(false);
 
   useEffect(() => {
     const loggedIn = Auth.loggedIn();
@@ -36,12 +38,20 @@ function Home() {
   return (
     <>
       <NavBar
-        setSelectedSport={setSelectedSport}
+        setSelectedSport={(sport) => {
+          setSelectedSport(sport);
+          setShowMyPicks(false);
+        }}
         onSignUpClick={handleSignUpClick}
+        setShowMyPicks={() => {
+          setShowMyPicks(true);
+          setSelectedSport(null);
+        }}
       />{" "}
       {!loggedIn && <LoggedOut />}
-      {loggedIn && !selectedSport && <LoggedIn />}
+      {loggedIn && !selectedSport && !showMyPicks && <LoggedIn />}
       {loggedIn && selectedSport && <CardPanel selectedSport={selectedSport} />}
+      {loggedIn && showMyPicks && <MyPicks />}
       <SignUpModal show={showSignUpModal} handleClose={handleClose} />{" "}
     </>
   );

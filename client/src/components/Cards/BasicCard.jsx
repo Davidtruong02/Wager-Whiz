@@ -9,6 +9,8 @@ import demonImage from "../../images/demon.jpg";
 import goblinImage from "../../images/goblin.jpg";
 
 function BasicCard({
+  isMyPicksPage,
+  _id,
   playerName,
   sport,
   category,
@@ -25,7 +27,10 @@ function BasicCard({
   imageUrl,
   source,
   start_time,
+  playerId,
 }) {
+  const [isCardAdded, setIsCardAdded] = useState(false);
+
   const calculateScore = () => {
     if (line) {
       return ((projection / line) * 100 - 100).toFixed(2);
@@ -36,8 +41,8 @@ function BasicCard({
   const score = calculateScore();
 
   const handleCardButtonClick = () => {
-    console.log("handleCardButtonClick called");
     const player = {
+      _id,
       playerName,
       sport,
       category,
@@ -54,6 +59,7 @@ function BasicCard({
       imageUrl,
       source,
       start_time,
+      playerId,
     };
 
     // Get the id_token from local storage
@@ -70,9 +76,27 @@ function BasicCard({
       })
       .then((response) => {
         console.log("Player data added to my picks:", response);
+        setIsCardAdded(true);
       })
       .catch((error) => {
         console.error("Error adding player data to my picks:", error);
+      });
+  };
+
+  if (isCardAdded) {
+    return null;
+  }
+
+  const handleCardDeleteClick = () => {
+    // Get the myPicksId from state or props
+    axios
+      .delete(`/api/mypicks/${_id}`)
+      .then((response) => {
+        console.log("Player data deleted from my picks:", response);
+        setIsCardAdded(true);
+      })
+      .catch((error) => {
+        console.error("Error deleting player data from my picks:", error);
       });
   };
 
@@ -143,7 +167,8 @@ function BasicCard({
             </div>
             {opponent && start_time && (
               <p className="mb-2">
-                {opponent}{" at "}
+                {opponent}
+                {" at "}
                 {new Date(start_time).toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -167,9 +192,10 @@ function BasicCard({
                 Prop: {line} {category}
               </p>
             )}
-              <div className="mb-2 start-time">
-                <CountdownTimer startTime={start_time} /> {/* Include the CountdownTimer component */}
-              </div>
+            <div className="mb-2 start-time">
+              <CountdownTimer startTime={start_time} />{" "}
+              {/* Include the CountdownTimer component */}
+            </div>
           </Card.Body>
         </Card>
         <Card
@@ -195,13 +221,23 @@ function BasicCard({
               <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
 
-            <Button
-              onClick={handleCardButtonClick}
-              className="cardButton"
-              variant="primary"
-            >
-              Add to picks
-            </Button>
+            {isMyPicksPage ? (
+              <Button
+                onClick={handleCardButtonClick}
+                className="cardButton"
+                variant="primary"
+              >
+                Add to picks
+              </Button>
+            ) : (
+              <Button
+                onClick={handleCardDeleteClick}
+                className="cardButton"
+                variant="primary"
+              >
+                Delete Pick
+              </Button>
+            )}
           </Card.Body>
         </Card>
       </div>

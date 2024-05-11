@@ -27,12 +27,18 @@ function CardPanel({ selectedSport }) {
         .then((response) => {
           const playersWithScores = response.data.map((player) => ({
             ...player,
-            score: player.line ? (player.projection / player.line) * 100 - 100 : 0,
+            score: player.line
+              ? (player.projection / player.line) * 100 - 100
+              : 0,
           }));
-          const sortedPlayers = playersWithScores.sort((a, b) => b.score - a.score);
+          const sortedPlayers = playersWithScores.sort(
+            (a, b) => b.score - a.score
+          );
           setPlayerData(sortedPlayers);
 
-          const uniqueCategories = [...new Set(sortedPlayers.map((player) => player.category))];
+          const uniqueCategories = [
+            ...new Set(sortedPlayers.map((player) => player.category)),
+          ];
           setCategories(uniqueCategories);
           setSelectedCategory(uniqueCategories[0]); // Set default selected category
         })
@@ -73,7 +79,11 @@ function CardPanel({ selectedSport }) {
   };
 
   return (
-    <Tab.Container id="left-tabs-example" defaultActiveKey="first" style={{ minHeight: "100vh" }}>
+    <Tab.Container
+      id="left-tabs-example"
+      defaultActiveKey="first"
+      style={{ minHeight: "100vh" }}
+    >
       <Row>
         <Col sm={12}>
           <div className="d-flex justify-content-center">
@@ -84,16 +94,29 @@ function CardPanel({ selectedSport }) {
             />
           </div>
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <Nav variant="pills" className="flex-row" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
+            <Nav
+              variant="pills"
+              className="flex-row"
+              activeKey={activeTab}
+              onSelect={(selectedKey) => setActiveTab(selectedKey)}
+            >
               <Nav.Item style={{ marginRight: "10px" }}>
                 <Nav.Link eventKey="first">
-                  <img src={prizePicksIcon} alt="Prize Picks Icon" style={{ marginRight: "10px" }} />
+                  <img
+                    src={prizePicksIcon}
+                    alt="Prize Picks Icon"
+                    style={{ marginRight: "10px" }}
+                  />
                   Prize Picks
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="second">
-                  <img src={underDogIcon} alt="underDog Icon" style={{ marginRight: "10px" }} />
+                  <img
+                    src={underDogIcon}
+                    alt="underDog Icon"
+                    style={{ marginRight: "10px" }}
+                  />
                   Underdog
                 </Nav.Link>
               </Nav.Item>
@@ -119,7 +142,9 @@ function CardPanel({ selectedSport }) {
                 key={category}
                 onClick={() => handleCategoryClick(category)}
                 className="mr-2 mb-2"
-                variant={category === selectedCategory ? "primary" : "secondary"}
+                variant={
+                  category === selectedCategory ? "primary" : "secondary"
+                }
               >
                 {category}
               </Button>
@@ -134,6 +159,8 @@ function CardPanel({ selectedSport }) {
               <div className="playerCards">
                 {filterPlayers(playerData).map((player) => (
                   <BasicCard
+                    isCardPanel={true}
+                    isMyPicksPage={true}
                     _id={player._id}
                     key={player._id}
                     playerName={player.playerName}
@@ -161,6 +188,8 @@ function CardPanel({ selectedSport }) {
               <div className="playerCards">
                 {filterPlayers(playerData).map((player) => (
                   <BasicCard
+                    isCardPanel={true}
+                    isMyPicksPage={true}
                     _id={player._id}
                     key={player._id}
                     playerName={player.playerName}
