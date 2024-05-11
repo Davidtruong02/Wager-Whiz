@@ -28,6 +28,7 @@ function BasicCard({
   source,
   start_time,
   playerId,
+  onDelete, // Add this prop
 }) {
   const [isCardAdded, setIsCardAdded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -92,17 +93,20 @@ function BasicCard({
     setIsAnimating(true);
     setTimeout(() => {
       setIsCardAdded(true);
-    }, 1000);
-
-    // Get the myPicksId from state or props
-    axios
-      .delete(`/api/mypicks/${_id}`)
-      .then((response) => {
-        console.log("Player data deleted from my picks:", response);
-      })
-      .catch((error) => {
-        console.error("Error deleting player data from my picks:", error);
-      });
+      // Get the myPicksId from state or props
+      axios
+        .delete(`/api/mypicks/${_id}`)
+        .then((response) => {
+          console.log("Player data deleted from my picks:", response);
+          // Call the onDelete callback function passed in through props
+          if (onDelete) {
+            onDelete(_id);
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting player data from my picks:", error);
+        });
+    }, 1000); // Adjust this delay to match the duration of your animation
   };
 
   if (isCardAdded) {
