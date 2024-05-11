@@ -30,6 +30,7 @@ function BasicCard({
   playerId,
 }) {
   const [isCardAdded, setIsCardAdded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const calculateScore = () => {
     if (line) {
@@ -41,6 +42,11 @@ function BasicCard({
   const score = calculateScore();
 
   const handleCardButtonClick = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsCardAdded(true);
+    }, 1000);
+
     const player = {
       _id,
       playerName,
@@ -76,10 +82,26 @@ function BasicCard({
       })
       .then((response) => {
         console.log("Player data added to my picks:", response);
-        setIsCardAdded(true);
       })
       .catch((error) => {
         console.error("Error adding player data to my picks:", error);
+      });
+  };
+
+  const handleCardDeleteClick = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setIsCardAdded(true);
+    }, 1000);
+
+    // Get the myPicksId from state or props
+    axios
+      .delete(`/api/mypicks/${_id}`)
+      .then((response) => {
+        console.log("Player data deleted from my picks:", response);
+      })
+      .catch((error) => {
+        console.error("Error deleting player data from my picks:", error);
       });
   };
 
@@ -87,22 +109,9 @@ function BasicCard({
     return null;
   }
 
-  const handleCardDeleteClick = () => {
-    // Get the myPicksId from state or props
-    axios
-      .delete(`/api/mypicks/${_id}`)
-      .then((response) => {
-        console.log("Player data deleted from my picks:", response);
-        setIsCardAdded(true);
-      })
-      .catch((error) => {
-        console.error("Error deleting player data from my picks:", error);
-      });
-  };
-
   return (
     <div
-      className="card-container"
+      className={`card-container ${isAnimating ? "card-disappear" : ""}`}
       style={{ marginBottom: "-175px", minHeight: "100%" }}
     >
       <div className="card-body">
