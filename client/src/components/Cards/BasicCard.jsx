@@ -125,6 +125,7 @@ function BasicCard({
             width: "18rem",
             maxHeight: "60%",
             backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundPosition: "center center",
             backgroundSize: "contain",
             position: "relative", // Add this to position the demon image
           }}
@@ -216,7 +217,8 @@ function BasicCard({
           style={{
             width: "18rem",
             maxHeight: "60%",
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/nba/500/${team}.png)`,
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundPosition: "center center",
             backgroundSize: "contain",
           }}
         >
