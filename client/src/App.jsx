@@ -9,7 +9,6 @@ import { setContext } from "@apollo/client/link/context";
 import { Outlet } from "react-router-dom";
 import Auth from "./utils/auth";
 import "./App.css";
-import NavBar from "./components/NavBar/NavBar";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({

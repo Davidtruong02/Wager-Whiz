@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import Icon from "../../images/fantasySports.jpg";
@@ -30,7 +31,7 @@ function getSportIcon(sport) {
   }
 }
 
-function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
+function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [sports, setSports] = useState([]);
@@ -112,7 +113,10 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
         {loggedIn && (
           <>
             <Nav.Item>
-              <Nav.Link eventKey="2" style={{ color: "white" }}>
+              <Nav.Link
+                onClick={() => setShowMyPicks(true)}
+                style={{ color: "white" }}
+              >
                 My Picks
               </Nav.Link>
             </Nav.Item>
@@ -138,9 +142,6 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
                   console.log("Sport selected: " + sport);
                   setSelectedSport(sport);
                   try {
-                    console.log("--------------------------------------------");
-                    console.log(`Sport selected: ${sport}`);
-                    console.log("--------------------------------------------");
                     const response = await Axios.get(
                       `/api/playerRoutesMLB/${sport}`
                     );
@@ -163,9 +164,6 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport }) {
                   console.log("Sport selected: " + sport);
                   setSelectedSport(sport); // Update the selected sport to NBA
                   try {
-                    console.log("--------------------------------------------");
-                    console.log(`Sport selected: ${sport}`);
-                    console.log("--------------------------------------------");
                     const response = await Axios.get(
                       `/api/playerRoutesNBA/${sport}`
                     );
