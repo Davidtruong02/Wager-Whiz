@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 
 function CountdownTimer({ startTime }) {
   const [timeLeft, setTimeLeft] = useState(getTimeRemaining());
-  const [flashClass, setFlashClass] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(getTimeRemaining());
-      setFlashClass(getFlashClass());
     }, 1000);
 
     return () => clearInterval(timer);
@@ -32,20 +30,38 @@ function CountdownTimer({ startTime }) {
     return { days, hours, minutes, seconds };
   }
 
-  function getFlashClass() {
+  function getTimeColor() {
     const totalSeconds = timeLeft.days * 24 * 60 * 60 + timeLeft.hours * 60 * 60 + timeLeft.minutes * 60 + timeLeft.seconds;
 
-    if (totalSeconds <= 30) {
-      return "flash";
+    if (totalSeconds > 10 * 60) {
+      return "green"; // Over 5 minutes
+    } else if (totalSeconds > 2 * 60) {
+      return "orange"; // Between 2 and 10 minutes
     } else {
-      return "";
+      return "red"; // 2 minutes and under
+    }
+  }
+
+  function getWarningSymbol() {
+    if (getTimeColor() === "red" || getTimeColor() === "orange") {
+      return "⚠️"; // Warning symbol for red and amber zones
+    } else {
+      return ""; // No symbol for other colors
+    }
+  }
+
+  function getWarningMessage() {
+    if (getTimeColor() === "red" || getTimeColor() === "orange") {
+      return "Time is almost up!"; // Warning message for red and amber zones
+    } else {
+      return ""; // No message for other colors
     }
   }
 
   return (
-    <div className={`countdown-timer ${flashClass}`}>
-      <p className="mb-2">
-        Start time: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+    <div className="countdown-timer">
+      <p className="mb-2" style={{ color: getTimeColor() }} title={getWarningMessage()}>
+        {getWarningSymbol()} Start time: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
       </p>
     </div>
   );
