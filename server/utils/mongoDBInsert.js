@@ -9,23 +9,25 @@ const insertDataIntoMongoDB = async (jsonData, sport) => {
     const data = JSON.parse(jsonData.body);
 
     // Ensure 'data' is an array and then transform player data based on the sport
-    const players = data.map(player => ({
-      playerName: player["Player Name"] || 'Unknown Player', // Default to 'Unknown Player' if missing
+    const players = data.map((player) => ({
+      playerName: player["Player Name"] || "Unknown Player", // Default to 'Unknown Player' if missing
       sport: player.Sport || sport, // Use the passed sport if missing
-      category: player.Category || 'Unknown Category', // Default to 'Unknown Category' if missing
+      category: player.Category || "Unknown Category", // Default to 'Unknown Category' if missing
       line: player.Line || 0, // Default to 0 if missing
-      typeOfLine: player["Type of Line"] || 'Unknown Type', // Default to 'Unknown Type' if missing
-      position: player.Position || 'Not Specified', // Provide default value
-      team: player.Team || 'Unknown', // Provide default value
-      opponent: player.Opponent || 'Unknown', // Provide default value
+      typeOfLine: player["Type of Line"] || "Unknown Type", // Default to 'Unknown Type' if missing
+      position: player.Position || "Not Specified", // Provide default value
+      team: player.Team === "CWS" ? "CHW" : player.Team || "Unknown", // Change 'CWS' to 'CHW'
+      opponent: player.Opponent || "Unknown", // Provide default value
       usagePercent: player["USG%"] || null, // Default to null if not available
       minutes: player.Minutes || null, // Default to null if not available
       minutesPercentage: player["Min %"] || null, // Default to null if not available
       projection: player.Projection || 0, // Default to 0 if missing
-      dvaPositionDefense: player["DVA pos def"] || 'None', // Default to 'None' if not available
-      imageUrl: player.image_url || 'https://static.prizepicks.com/images/players/placeholder.png', // Provide a default image URL
-      source: player.Source || 'Unknown Source', // Default to 'Unknown Source' if missing
-      start_time: player.start_time || 'Unknown Start Time', // Default to 'Unknown Start Time' if missing
+      dvaPositionDefense: player["DVA pos def"] || "None", // Default to 'None' if not available
+      imageUrl:
+        player.image_url ||
+        "https://static.prizepicks.com/images/players/placeholder.png", // Provide a default image URL
+      source: player.Source || "Unknown Source", // Default to 'Unknown Source' if missing
+      start_time: player.start_time || "Unknown Start Time", // Default to 'Unknown Start Time' if missing
     }));
 
     // Get the model for the sport

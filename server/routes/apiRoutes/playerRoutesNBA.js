@@ -9,7 +9,17 @@ router.get("/:sport", async (req, res) => {
     console.log("--------------------------------------------");
     console.log(`Sport selected: ${sport}`);
     console.log("--------------------------------------------");
+
+    // Delete all documents in the collection that match the sport
+    try {
+      await NBAPlayerData.deleteMany({ sport });
+      console.log("NBAPlayerData delete successful");
+    } catch (error) {
+      console.error("Error deleting player data:", error);
+    }
+
     await fetchDataFromAWS(sport); // call the function with sport as parameter
+
     const playerData = await NBAPlayerData.find({ sport });
     res.json(playerData);
   } catch (err) {
