@@ -33,9 +33,9 @@ function CountdownTimer({ startTime }) {
   function getTimeColor() {
     const totalSeconds = timeLeft.days * 24 * 60 * 60 + timeLeft.hours * 60 * 60 + timeLeft.minutes * 60 + timeLeft.seconds;
 
-    if (totalSeconds > 10 * 60) {
-      return "green"; // Over 5 minutes
-    } else if (totalSeconds > 2 * 60) {
+    if (totalSeconds > 30 * 60) {
+      return "green"; // Over 10 minutes
+    } else if (totalSeconds > 15 * 60) {
       return "orange"; // Between 2 and 10 minutes
     } else {
       return "red"; // 2 minutes and under
