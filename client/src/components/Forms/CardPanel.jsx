@@ -3,8 +3,7 @@ import prizePicksIcon from "../../images/PrizePicks.png";
 import underDogIcon from "../../images/underdog.png";
 import Axios from "axios";
 import BasicCard from "../Cards/BasicCard";
-import Button from "react-bootstrap/Button";
-import { Tab, Nav, Row, Col } from "react-bootstrap";
+import { Tab, Nav, Row, Col, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import NBALogo from "../../images/NBA.png";
 import MLBLogo from "../../images/MLB2.png";
@@ -13,33 +12,29 @@ function CardPanel({ selectedSport }) {
   const [playerData, setPlayerData] = useState([]);
   const [activeTab, setActiveTab] = useState("first");
   const [searchInput, setSearchInput] = useState("");
-  const [selectedOption, setSelectedOption] = useState("Sort by...");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
   };
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
   useEffect(() => {
     if (selectedSport) {
-      // Determine the API endpoint based on the selected sport
       const apiEndpoint = `/api/playerRoutes${selectedSport}`;
 
       Axios.get(apiEndpoint)
         .then((response) => {
           const playersWithScores = response.data.map((player) => ({
             ...player,
-            score: player.line
-              ? (player.projection / player.line) * 100 - 100
-              : 0,
+            score: player.line ? (player.projection / player.line) * 100 - 100 : 0,
           }));
-          const sortedPlayers = playersWithScores.sort(
-            (a, b) => b.score - a.score
-          );
+          const sortedPlayers = playersWithScores.sort((a, b) => b.score - a.score);
           setPlayerData(sortedPlayers);
+
+          const uniqueCategories = [...new Set(sortedPlayers.map((player) => player.category))];
+          setCategories(uniqueCategories);
+          setSelectedCategory(uniqueCategories[0]); // Set default selected category
         })
         .catch((error) => {
           console.error("Error fetching player data:", error);
@@ -47,14 +42,38 @@ function CardPanel({ selectedSport }) {
     }
   }, [selectedSport]);
 
-  let sortedAndFilteredPlayers = playerData;
+  useEffect(() => {
+    if (playerData.length > 0) {
+      const filteredCategories = playerData
+        .filter((player) => player.source === selectedTab())
+        .map((player) => player.category);
+      setCategories([...new Set(filteredCategories)]);
+      setSelectedCategory(filteredCategories[0]); // Set default selected category
+    }
+  }, [playerData, activeTab]);
+
+  const filterPlayers = (players) => {
+    const now = new Date();
+    return players.filter(
+      (data) =>
+        data.source === selectedTab() &&
+        (data.playerName.toLowerCase().includes(searchInput.toLowerCase()) ||
+          data.team.toLowerCase().includes(searchInput.toLowerCase())) &&
+        data.category === selectedCategory &&
+        new Date(data.start_time) > now // Filter out cards with start_time in the past
+    );
+  };
+
+  const selectedTab = () => {
+    return activeTab === "first" ? "PrizePicks" : "UnderDog";
+  };
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category); // Update selected category
+  };
 
   return (
-    <Tab.Container
-      id="left-tabs-example"
-      defaultActiveKey="first"
-      style={{ minHeight: "100vh" }}
-    >
+    <Tab.Container id="left-tabs-example" defaultActiveKey="first" style={{ minHeight: "100vh" }}>
       <Row>
         <Col sm={12}>
           <div className="d-flex justify-content-center">
@@ -64,30 +83,17 @@ function CardPanel({ selectedSport }) {
               alt={selectedSport}
             />
           </div>
-          <div className="d-flex justify-content-between align-items-center">
-            <Nav
-              variant="pills"
-              className="flex-row"
-              activeKey={activeTab}
-              onSelect={(selectedKey) => setActiveTab(selectedKey)}
-            >
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <Nav variant="pills" className="flex-row" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
               <Nav.Item style={{ marginRight: "10px" }}>
                 <Nav.Link eventKey="first">
-                  <img
-                    src={prizePicksIcon}
-                    alt="Prize Picks Icon"
-                    style={{ marginRight: "10px" }}
-                  />
+                  <img src={prizePicksIcon} alt="Prize Picks Icon" style={{ marginRight: "10px" }} />
                   Prize Picks
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="second">
-                  <img
-                    src={underDogIcon}
-                    alt="underDog Icon"
-                    style={{ marginRight: "10px" }}
-                  />
+                  <img src={underDogIcon} alt="underDog Icon" style={{ marginRight: "10px" }} />
                   Underdog
                 </Nav.Link>
               </Nav.Item>
@@ -101,26 +107,23 @@ function CardPanel({ selectedSport }) {
                 onChange={handleInputChange}
                 style={{ width: "300px" }}
               />
-              {/* <Button className="searchButton" variant="primary">
-                Search
-              </Button> */}
-              <Form.Select
-                // as="select"
-                className="ml-2 mr-2"
-                value={selectedOption}
-                onChange={handleOptionChange}
-                style={{ width: "200px" }}
-              >
-                <option>Sort by...</option>
-                <option>Projection asc</option>
-                <option>Projection desc</option>
-                <option>Team</option>
-                <option>Prop</option>
-                <option>Type of line</option>
-                // Add more options as needed
-              </Form.Select>
-              {/* <Button variant="primary">Sort</Button> */}
             </div>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={12}>
+          <div className="d-flex flex-wrap mb-3" style={{ marginLeft: "5px" }}>
+            {categories.map((category) => (
+              <Button
+                key={category}
+                onClick={() => handleCategoryClick(category)}
+                className="mr-2 mb-2"
+                variant={category === selectedCategory ? "primary" : "secondary"}
+              >
+                {category}
+              </Button>
+            ))}
           </div>
         </Col>
       </Row>
@@ -129,148 +132,56 @@ function CardPanel({ selectedSport }) {
           <Tab.Content>
             <Tab.Pane eventKey="first">
               <div className="playerCards">
-                {(() => {
-                  let sortedAndFilteredPlayers = playerData.filter(
-                    (data) =>
-                      data.source === "PrizePicks" &&
-                      (data.playerName
-                        .toLowerCase()
-                        .includes(searchInput.toLowerCase()) ||
-                        data.team
-                          .toLowerCase()
-                          .includes(searchInput.toLowerCase()))
-                  );
-
-                  switch (selectedOption) {
-                    case "Projection asc":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.score - b.score
-                      );
-                      break;
-                    case "Projection desc":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => b.score - a.score
-                      );
-                      break;
-                    case "Team":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.team.localeCompare(b.team)
-                      );
-                      break;
-                    case "Prop":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.category.localeCompare(b.category)
-                      );
-                      break;
-                    case "Type of line":
-                      const order = ["goblin", "demon", "standard", "none"];
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) =>
-                          order.indexOf(a.typeOfLine.trim().toLowerCase()) -
-                          order.indexOf(b.typeOfLine.trim().toLowerCase())
-                      );
-                      break;
-                    default:
-                      break;
-                  }
-
-                  return sortedAndFilteredPlayers.map((player) => (
-                    <BasicCard
-                      _id={player._id}
-                      key={player._id}
-                      playerName={player.playerName}
-                      sport={player.sport}
-                      category={player.category}
-                      line={player.line}
-                      typeOfLine={player.typeOfLine}
-                      position={player.position}
-                      team={player.team}
-                      opponent={player.opponent}
-                      usagePercent={player.usagePercent}
-                      minutes={player.minutes}
-                      minutesPercentage={player.minutesPercentage}
-                      projection={player.projection}
-                      dvaPositionDefense={player.dvaPositionDefense}
-                      imageUrl={player.imageUrl}
-                      source={player.source}
-                      start_time={player.start_time}
-                      score={player.score}
-                    />
-                  ));
-                })()}
+                {filterPlayers(playerData).map((player) => (
+                  <BasicCard
+                    _id={player._id}
+                    key={player._id}
+                    playerName={player.playerName}
+                    sport={player.sport}
+                    category={player.category}
+                    line={player.line}
+                    typeOfLine={player.typeOfLine}
+                    position={player.position}
+                    team={player.team}
+                    opponent={player.opponent}
+                    usagePercent={player.usagePercent}
+                    minutes={player.minutes}
+                    minutesPercentage={player.minutesPercentage}
+                    projection={player.projection}
+                    dvaPositionDefense={player.dvaPositionDefense}
+                    imageUrl={player.imageUrl}
+                    source={player.source}
+                    start_time={player.start_time}
+                    score={player.score}
+                  />
+                ))}
               </div>
             </Tab.Pane>
             <Tab.Pane eventKey="second">
               <div className="playerCards">
-                {(() => {
-                  let sortedAndFilteredPlayers = playerData.filter(
-                    (data) =>
-                      data.source === "UnderDog" &&
-                      (data.playerName
-                        .toLowerCase()
-                        .includes(searchInput.toLowerCase()) ||
-                        data.team
-                          .toLowerCase()
-                          .includes(searchInput.toLowerCase()))
-                  );
-
-                  switch (selectedOption) {
-                    case "Projection asc":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.score - b.score
-                      );
-                      break;
-                    case "Projection desc":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => b.score - a.score
-                      );
-                      break;
-                    case "Team":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.team.localeCompare(b.team)
-                      );
-                      break;
-                    case "Prop":
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) => a.category.localeCompare(b.category)
-                      );
-                      break;
-                    case "Type of line":
-                      const order = ["goblin", "demon", "standard", "none"];
-                      sortedAndFilteredPlayers = sortedAndFilteredPlayers.sort(
-                        (a, b) =>
-                          order.indexOf(a.typeOfLine.trim().toLowerCase()) -
-                          order.indexOf(b.typeOfLine.trim().toLowerCase())
-                      );
-                      break;
-                    default:
-                      break;
-                  }
-
-                  return sortedAndFilteredPlayers.map((player) => (
-                    <BasicCard
-                      _id={player._id}
-                      key={player._id}
-                      playerName={player.playerName}
-                      sport={player.sport}
-                      category={player.category}
-                      line={player.line}
-                      typeOfLine={player.typeOfLine}
-                      position={player.position}
-                      team={player.team}
-                      opponent={player.opponent}
-                      usagePercent={player.usagePercent}
-                      minutes={player.minutes}
-                      minutesPercentage={player.minutesPercentage}
-                      projection={player.projection}
-                      dvaPositionDefense={player.dvaPositionDefense}
-                      imageUrl={player.imageUrl}
-                      source={player.source}
-                      start_time={player.start_time}
-                      score={player.score}
-                    />
-                  ));
-                })()}
+                {filterPlayers(playerData).map((player) => (
+                  <BasicCard
+                    _id={player._id}
+                    key={player._id}
+                    playerName={player.playerName}
+                    sport={player.sport}
+                    category={player.category}
+                    line={player.line}
+                    typeOfLine={player.typeOfLine}
+                    position={player.position}
+                    team={player.team}
+                    opponent={player.opponent}
+                    usagePercent={player.usagePercent}
+                    minutes={player.minutes}
+                    minutesPercentage={player.minutesPercentage}
+                    projection={player.projection}
+                    dvaPositionDefense={player.dvaPositionDefense}
+                    imageUrl={player.imageUrl}
+                    source={player.source}
+                    start_time={player.start_time}
+                    score={player.score}
+                  />
+                ))}
               </div>
             </Tab.Pane>
           </Tab.Content>

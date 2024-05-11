@@ -21,18 +21,39 @@ function CountdownTimer({ startTime }) {
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
 
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    const totalSeconds = Math.floor(difference / 1000);
+    const days = Math.floor(totalSeconds / (60 * 60 * 24));
+    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    const seconds = totalSeconds % 60;
 
     return { days, hours, minutes, seconds };
   }
 
+  function getTimeColor() {
+    const totalSeconds = timeLeft.days * 24 * 60 * 60 + timeLeft.hours * 60 * 60 + timeLeft.minutes * 60 + timeLeft.seconds;
+
+    if (totalSeconds > 5 * 60) {
+      return "green"; // Over 5 minutes
+    } else if (totalSeconds > 2 * 60) {
+      return "amber"; // Between 2 and 5 minutes
+    } else {
+      return "red"; // 2 minutes and under
+    }
+  }
+
+  function getWarningSymbol() {
+    if (getTimeColor() === "red" || getTimeColor() === "amber") {
+      return "⚠️"; // Warning symbol for red zone
+    } else {
+      return ""; // No symbol for other colors
+    }
+  }
+
   return (
     <div className="countdown-timer">
-      <p className="mb-2">
-        Time until start: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+      <p className="mb-2" style={{ color: getTimeColor() }}>
+        {getWarningSymbol()} Start time: {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
       </p>
     </div>
   );
