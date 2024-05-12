@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
 import "../App.css";
 import NavBar from "../components/NavBar/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
@@ -33,7 +32,6 @@ function getSportIcon(sport) {
 }
 
 function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
-  const isMobile = useMediaQuery({ query: "(max-width: 344px)" });
   const [loading, setLoading] = useState(true);
   const [loggedIn, setIsLoggedIn] = useState(false);
   const [sports, setSports] = useState([]);
@@ -97,150 +95,134 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
     <Navbar
       className="justify-content-between mx-3"
       style={{ backgroundColor: "#1d1e22" }}
-      expand="lg" // Navbar will expand at the "lg" breakpoint (992px by default)
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Navbar.Brand href="#home">
-          <Image
-            src={Icon}
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-            alt="React Bootstrap logo"
-          />{" "}
-          <span className="text-white">WagerWhiz</span>
-        </Navbar.Brand>
-      </div>
-      <Navbar.Toggle
-        aria-controls="responsive-navbar-nav"
-        style={{ backgroundColor: "white" }}
-      />
-      <Navbar.Collapse
-        id="responsive-navbar-nav"
-        className="justify-content-end"
-      >
-        <div style={{ flex: 1, textAlign: "center" }}>
-          {loggedIn && (
-            <Navbar.Text className="text-white">
-              Welcome, {username}!!
-            </Navbar.Text>
-          )}
-        </div>
-        <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
-          {loggedIn && (
+      <Navbar.Brand href="#home">
+        <Image
+          src={Icon}
+          width="30"
+          height="30"
+          className="d-inline-block align-top"
+          alt="React Bootstrap logo"
+        />{" "}
+        <span className="text-white">WagerWhiz</span>
+      </Navbar.Brand>
+      {loggedIn && (
+        <Navbar.Text className="text-white">Welcome, {username}!!</Navbar.Text>
+      )}
+      <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
+        {loggedIn && (
+          <>
+            <Nav.Item>
+              <Nav.Link
+                onClick={() => setShowMyPicks(true)}
+                style={{ color: "white" }}
+              >
+                My Picks
+              </Nav.Link>
+            </Nav.Item>
+          </>
+        )}
+        <NavDropdown
+          title={<span style={{ color: "white" }}>Current Board</span>}
+          id="nav-dropdown"
+          style={{ color: "#1d1e22" }}
+          className="currentBoard"
+          onClick={() => {
+            if (!loggedIn) {
+              handleSignInModalShow();
+            }
+          }}
+        >
+          {loggedIn ? (
             <>
-              <Nav.Item>
-                <Nav.Link
-                  onClick={() => setShowMyPicks(true)}
+              <NavDropdown.Item
+                key="MLB"
+                onClick={async () => {
+                  const sport = "mlb";
+                  console.log("Sport selected: " + sport);
+                  setSelectedSport(sport);
+                  try {
+                    const response = await Axios.get(
+                      `/api/playerRoutesMLB/${sport}`
+                    );
+                    console.log(response.data); // Log the response data for debugging
+                  } catch (error) {
+                    console.error("Error fetching MLB players:", error);
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={getSportIcon("MLB")}
                   style={{ color: "white" }}
-                >
-                  My Picks
-                </Nav.Link>
-              </Nav.Item>
-            </>
-          )}
-          <NavDropdown
-            title={<span style={{ color: "white" }}>Current Board</span>}
-            id="nav-dropdown"
-            style={{ color: "#1d1e22" }}
-            className="currentBoard"
-            onClick={() => {
-              if (!loggedIn) {
-                handleSignInModalShow();
-              }
-            }}
-          >
-            {loggedIn ? (
-              <>
-                <NavDropdown.Item
-                  key="MLB"
-                  onClick={async () => {
-                    const sport = "mlb";
-                    console.log("Sport selected: " + sport);
-                    setSelectedSport(sport);
-                    try {
-                      const response = await Axios.get(
-                        `/api/playerRoutesMLB/${sport}`
-                      );
-                      console.log(response.data); // Log the response data for debugging
-                    } catch (error) {
-                      console.error("Error fetching MLB players:", error);
-                    }
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={getSportIcon("MLB")}
-                    style={{ color: "white" }}
-                  />{" "}
-                  MLB
-                </NavDropdown.Item>
-                <NavDropdown.Item
-                  key="NBA"
-                  onClick={async () => {
-                    const sport = "nba";
-                    console.log("Sport selected: " + sport);
-                    setSelectedSport(sport); // Update the selected sport to NBA
-                    try {
-                      const response = await Axios.get(
-                        `/api/playerRoutesNBA/${sport}`
-                      );
-                      console.log(response.data); // Log the response data for debugging
-                    } catch (error) {
-                      console.error("Error fetching NBA players:", error);
-                    }
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={getSportIcon("NBA")}
-                    style={{ color: "white" }}
-                  />{" "}
-                  NBA
-                </NavDropdown.Item>
-              </>
-            ) : (
-              <NavDropdown.Item disabled>
-                Please log in to see options
+                />{" "}
+                MLB
               </NavDropdown.Item>
-            )}
-          </NavDropdown>
-          {loggedIn && (
+              <NavDropdown.Item
+                key="NBA"
+                onClick={async () => {
+                  const sport = "nba";
+                  console.log("Sport selected: " + sport);
+                  setSelectedSport(sport); // Update the selected sport to NBA
+                  try {
+                    const response = await Axios.get(
+                      `/api/playerRoutesNBA/${sport}`
+                    );
+                    console.log(response.data); // Log the response data for debugging
+                  } catch (error) {
+                    console.error("Error fetching NBA players:", error);
+                  }
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={getSportIcon("NBA")}
+                  style={{ color: "white" }}
+                />{" "}
+                NBA
+              </NavDropdown.Item>
+            </>
+          ) : (
+            <NavDropdown.Item disabled>
+              Please log in to see options
+            </NavDropdown.Item>
+          )}
+        </NavDropdown>
+        {loggedIn && (
+          <Button
+            variant="secondary"
+            onClick={handleLogout}
+            className="ml-auto"
+          >
+            Logout
+          </Button>
+        )}
+        {!loggedIn && (
+          <>
             <Button
               variant="secondary"
-              onClick={handleLogout}
-              className="ml-auto"
+              onClick={handleSignUpModalShow}
+              className="mr-2"
             >
-              Logout
+              Sign Up
             </Button>
-          )}
-          {!loggedIn && (
-            <>
-              <Button
-                variant="secondary"
-                onClick={handleSignUpModalShow}
-                className="mr-2"
-              >
-                Sign Up
-              </Button>
-              <Button
-                variant="primary"
-                onClick={handleSignInModalShow}
-                className="mr-2"
-              >
-                Sign In
-              </Button>
-              <SignInModal
-                show={showSignInModal}
-                handleClose={handleSignInModalClose}
-                handleSignUpClick={handleSignUpClick} // Pass handleSignUpClick as a prop here
-              />
-              <SignUpModal
-                show={showSignUpModal}
-                handleClose={handleSignUpModalClose}
-              />
-            </>
-          )}
-        </Nav>
-      </Navbar.Collapse>{" "}
+            <Button
+              variant="primary"
+              onClick={handleSignInModalShow}
+              className="mr-2"
+            >
+              Sign In
+            </Button>
+            <SignInModal
+              show={showSignInModal}
+              handleClose={handleSignInModalClose}
+              handleSignUpClick={handleSignUpClick} // Pass handleSignUpClick as a prop here
+            />
+            <SignUpModal
+              show={showSignUpModal}
+              handleClose={handleSignUpModalClose}
+            />
+          </>
+        )}
+      </Nav>
     </Navbar>
   );
 }

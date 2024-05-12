@@ -1,22 +1,7 @@
 .card-container {
   perspective: 1000px !important;
   min-height: 100%;
-  width: 100%; /* Add this */
 }
-
-@media (min-width: 900px) {
-  .card-container {
-    width: 50%; /* This will apply to larger screens */
-  }
-}
-
-/* .cards-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
 
 .card-body {
   position: relative !important;
@@ -24,7 +9,9 @@
   height: 33rem !important;
   text-align: center !important;
   transition: transform 0.6s !important;
-  transform-style: preserve-3d !important;  
+  transform-style: preserve-3d !important;
+;
+  
 }
 
 .card-container:hover > .card-body {
@@ -83,7 +70,3 @@
     opacity: 0; /* End with zero opacity */
   }
 }
-
-
-
-

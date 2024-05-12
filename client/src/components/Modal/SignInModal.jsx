@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { useMutation, ApolloError } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
@@ -10,7 +9,6 @@ import "../../App.css";
 import Auth from "../../utils/auth";
 
 function SignInModal({ show, handleClose, handleSignUpClick }) {
-  const isMobile = useMediaQuery({ query: "(max-width: 430px)" });
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
@@ -59,54 +57,52 @@ function SignInModal({ show, handleClose, handleSignUpClick }) {
   console.log(handleSignUpClick); // Add this line in SignInModal component
 
   return (
-    <div style={{ padding: isMobile ? "10px" : "20px" }}>
-      <Modal show={show} onHide={handleClose} className="signInModal">
-        <Modal.Header closeButton>
-          <Modal.Title>Sign In</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Enter email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="name@example.com"
-                autoFocus
-                name="email"
-                value={formState.email}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter password"
-                autoFocus
-                name="password"
-                value={formState.password}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <p>
-              Don't have an account, not a problem. Click{" "}
-              <Link to="#" onClick={handleSignUpClick}>
-                here
-              </Link>{" "}
-              to sign up!
-            </p>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSignInClick}>
-            Sign In
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+    <Modal show={show} onHide={handleClose} className="signInModal">
+      <Modal.Header closeButton>
+        <Modal.Title>Sign In</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Enter email address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="name@example.com"
+              autoFocus
+              name="email"
+              value={formState.email}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              autoFocus
+              name="password"
+              value={formState.password}
+              onChange={handleChange}
+            />
+          </Form.Group>
+          <p>
+            Don't have an account, not a problem. Click{" "}
+            <Link to="#" onClick={handleSignUpClick}>
+              here
+            </Link>{" "}
+            to sign up!
+          </p>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleSignInClick}>
+          Sign In
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
