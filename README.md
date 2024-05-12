@@ -46,7 +46,7 @@ Self-test
 ![Screenshot](./utils/screenshot.png)
 
 ## Questions
-- If you have any questions, you can reach us on GitHub: <a href="https://github.com/akayer19" target="_blank">GitHub Profile</a>, <a href="https://github.com/dstorie80" target="_blank">GitHub Profile</a>, <a href="https://github.com/inezcarrillo" target="_blank">GitHub Profile</a>, or <a href="https://github.com/Davidtruong02" target="_blank">GitHub Profile</a>
+- If you have any questions, you can reach us on GitHub: <a href="https://github.com/akayer19" target="_blank">Alex Kaye's GitHub Profile</a>, <a href="https://github.com/dstorie80" target="_blank">Damon Storie's GitHub Profile</a>, <a href="https://github.com/inezcarrillo" target="_blank">Inez Carrillo's GitHub Profile</a>, or <a href="https://github.com/Davidtruong02" target="_blank">David Truong's GitHub Profile</a>
 
 - For additional questions, contact me via email: akayeauto@gmail.com
     
