@@ -1,3 +1,5 @@
+// Inside BasicCard.jsx
+
 import axios from "axios";
 import { useMediaQuery } from "react-responsive";
 import jwt_decode from "jwt-decode";
@@ -111,6 +113,11 @@ function BasicCard({
     }, 1000); // Adjust this delay to match the duration of your animation
   };
 
+  const handleTimerComplete = () => {
+    // Automatically delete the card when timer expires
+    handleCardDeleteClick();
+  };
+
   if (isCardAdded) {
     return null;
   }
@@ -153,6 +160,7 @@ function BasicCard({
                 }}
               />
             )}
+
             {typeOfLine === "goblin" && (
               <img
                 src={goblinImage}
@@ -166,6 +174,33 @@ function BasicCard({
                   transform: "rotate(15deg)",
                 }}
               />
+=======
+            <div className="mb-2 start-time">
+              <CountdownTimer startTime={start_time} onTimerComplete={handleTimerComplete} />{" "}
+              {/* Include the CountdownTimer component */}
+            </div>
+          </Card.Body>
+        </Card>
+        <Card
+          className="card-back"
+          style={{
+            width: "18rem",
+            maxHeight: "60%",
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundPosition: "center center",
+            backgroundSize: "contain",
+          }}
+        >
+          <Card.Body>
+            {usagePercent && (
+              <p className="mb-2">Usage Percent: {usagePercent}%</p>
+            )}
+            {typeOfLine && <p className="mb-2">Type of Line: {typeOfLine}</p>}
+            {minutes && minutesPercentage && (
+              <p className="mb-2">
+                Minutes: {minutes} ({minutesPercentage})
+              </p>
+
             )}
             {imageUrl && (
               <Card.Img
