@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import prizePicksIcon from "../../images/PrizePicks.png";
 import underDogIcon from "../../images/underdog.png";
 import Axios from "axios";
 import BasicCard from "../Cards/BasicCard";
-import { Tab, Nav, Row, Col, Button } from "react-bootstrap";
+import { Tab, Nav, Row, Col, Button, Dropdown } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import NBALogo from "../../images/NBA.png";
 import MLBLogo from "../../images/MLB2.png";
 
 function CardPanel({ selectedSport }) {
+  const isMobile = useMediaQuery({ query: "(max-width: 690px)" });
   const [playerData, setPlayerData] = useState([]);
   const [activeTab, setActiveTab] = useState("first");
   const [searchInput, setSearchInput] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [activeNavLink, setActiveNavLink] = useState("first");
 
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -78,6 +81,22 @@ function CardPanel({ selectedSport }) {
     setSelectedCategory(category); // Update selected category
   };
 
+  const handleMobileCategoryClick = (category) => {
+    setSelectedCategory(category); // Update selected category
+    const categorySource = playerData.find(
+      (player) => player.category === category
+    )?.source;
+    console.log(`Category source for ${category}:`, categorySource); // Add this line
+    if (categorySource) {
+      const tab = categorySource === "PrizePicks" ? "first" : "second";
+      setActiveTab(tab); // Update activeTab state
+      setActiveNavLink(tab); // Update activeNavLink state
+    } else {
+      setActiveTab("first"); // Set activeTab state to default value
+      setActiveNavLink("first"); // Set activeNavLink state to default value
+    }
+  };
+
   return (
     <Tab.Container
       id="left-tabs-example"
@@ -101,23 +120,31 @@ function CardPanel({ selectedSport }) {
               onSelect={(selectedKey) => setActiveTab(selectedKey)}
             >
               <Nav.Item style={{ marginRight: "10px" }}>
-                <Nav.Link eventKey="first">
+                <Nav.Link
+                  eventKey="first"
+                  active={activeNavLink === "first"}
+                  onClick={() => setActiveNavLink("first")}
+                >
                   <img
                     src={prizePicksIcon}
                     alt="Prize Picks Icon"
                     style={{ marginRight: "10px" }}
                   />
-                  Prize Picks
+                  {!isMobile && "Prize Picks"}
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">
+                <Nav.Link
+                  eventKey="second"
+                  active={activeNavLink === "second"}
+                  onClick={() => setActiveNavLink("second")}
+                >
                   <img
                     src={underDogIcon}
                     alt="underDog Icon"
                     style={{ marginRight: "10px" }}
                   />
-                  Underdog
+                  {!isMobile && "Underdog"}
                 </Nav.Link>
               </Nav.Item>
             </Nav>
@@ -128,7 +155,7 @@ function CardPanel({ selectedSport }) {
                 className="mr-2"
                 value={searchInput}
                 onChange={handleInputChange}
-                style={{ width: "300px" }}
+                style={{ width: isMobile ? "150px" : "300px" }}
               />
             </div>
           </div>
@@ -136,20 +163,53 @@ function CardPanel({ selectedSport }) {
       </Row>
       <Row>
         <Col sm={12}>
-          <div className="d-flex flex-wrap mb-3" style={{ marginLeft: "5px" }}>
-            {categories.map((category) => (
-              <Button
-                key={category}
-                onClick={() => handleCategoryClick(category)}
-                className="mr-2 mb-2"
-                variant={
-                  category === selectedCategory ? "primary" : "secondary"
-                }
+          {isMobile ? (
+            <Dropdown onSelect={handleMobileCategoryClick}>
+              <Dropdown.Toggle
+                variant="primary"
+                align="end"
+                id="dropdown-basic"
+                style={{ width: "100%" }}
               >
-                {category}
-              </Button>
-            ))}
-          </div>
+                {selectedCategory || "Select Category"}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu
+                style={{
+                  width: "100%",
+                  backgroundColor: "#1d1e22",
+                }}
+              >
+                {categories.map((category) => (
+                  <Dropdown.Item
+                    eventKey={category}
+                    key={category}
+                    style={{ color: "white" }}
+                  >
+                    {category}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <div
+              className="d-flex flex-wrap mb-3"
+              style={{ marginLeft: "5px" }}
+            >
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className="mr-2 mb-2"
+                  variant={
+                    category === selectedCategory ? "primary" : "secondary"
+                  }
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+          )}
         </Col>
       </Row>
       <Row>

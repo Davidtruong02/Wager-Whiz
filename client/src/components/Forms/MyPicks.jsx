@@ -7,12 +7,14 @@ import "../../App.css";
 import "../Cards/BasicCard.css";
 import prizePicksIcon from "../../images/PrizePicks.png";
 import underDogIcon from "../../images/underdog.png";
+import { useMediaQuery } from "react-responsive";
 
 function MyPicks() {
   const [cards, setCards] = useState([]);
   const [pickData, setPickData] = useState([]);
   const [activeTab, setActiveTab] = useState("first");
   const [selectedSport, setSelectedSport] = useState(null);
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
   // Get the id_token from local storage
   const idToken = localStorage.getItem("id_token");
@@ -103,7 +105,7 @@ function MyPicks() {
                         alt="Prize Picks"
                         style={{ width: "20px", marginRight: "5px" }}
                       />
-                      Prize Picks
+                      {!isMobile && "Prize Picks"}
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
@@ -113,7 +115,7 @@ function MyPicks() {
                         alt="Under Dog"
                         style={{ width: "20px", marginRight: "5px" }}
                       />
-                      UnderDog
+                      {!isMobile && "Underdog"}
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>
