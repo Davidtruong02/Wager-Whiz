@@ -57,3 +57,16 @@
 .card-disappear {
   animation: shrinkAndDisappear 1s forwards;
 }
+.flash {
+  animation: flash-animation 1s infinite alternate; /* Flash animation */
+}
+
+@keyframes flash-animation {
+  from {
+    opacity: 1; /* Start with full opacity */
+  }
+
+  to {
+    opacity: 0; /* End with zero opacity */
+  }
+}
