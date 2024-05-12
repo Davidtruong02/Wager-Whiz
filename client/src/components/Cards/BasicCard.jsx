@@ -1,7 +1,6 @@
 // Inside BasicCard.jsx
 
 import axios from "axios";
-import { useMediaQuery } from "react-responsive";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -35,7 +34,6 @@ function BasicCard({
 }) {
   const [isCardAdded, setIsCardAdded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
   const calculateScore = () => {
     if (line) {
@@ -123,58 +121,98 @@ function BasicCard({
   }
 
   return (
-    <div className="cards-wrapper">
-      <div
-        className={`card-container ${isMobile ? "mobile" : ""} ${
-          isAnimating ? "card-disappear" : ""
-        }`}
-        style={{
-          marginBottom: isMobile ? "-210px" : "-175px",
-          minHeight: "100%",
-          alignItems: isMobile ? "center" : [],
-        }}
-      >
-        <div className="card-body">
-          <Card
-            className="card-front"
-            style={{
-              width: "18rem",
-              maxHeight: "60%",
-              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
-              backgroundPosition: "center center",
-              backgroundSize: "contain",
-              position: "relative", // Add this to position the demon image
-            }}
-          >
-            {typeOfLine === "demon" && (
-              <img
-                src={demonImage}
-                alt="Demon"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  width: "25px",
-                  height: "25px",
-                  transform: "rotate(15deg)",
-                }}
-              />
+    <div
+      className={`card-container ${isAnimating ? "card-disappear" : ""}`}
+      style={{ marginBottom: "-175px", minHeight: "100%" }}
+    >
+      <div className="card-body">
+        <Card
+          className="card-front"
+          style={{
+            width: "18rem",
+            maxHeight: "60%",
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundPosition: "center center",
+            backgroundSize: "contain",
+            position: "relative", // Add this to position the demon image
+          }}
+        >
+          {typeOfLine === "demon" && (
+            <img
+              src={demonImage}
+              alt="Demon"
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                width: "25px",
+                height: "25px",
+                transform: "rotate(15deg)",
+              }}
+            />
+          )}
+          {typeOfLine === "goblin" && (
+            <img
+              src={goblinImage}
+              alt="Goblin"
+              style={{
+                position: "fixed", // or "absolute"
+                top: 10,
+                right: 10,
+                width: "25px",
+                height: "25px",
+                transform: "rotate(15deg)",
+              }}
+            />
+          )}
+          {imageUrl && (
+            <Card.Img
+              style={{
+                maxHeight: "40%",
+                maxWidth: "40%",
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+              variant="top"
+              src={imageUrl}
+            />
+          )}
+          <Card.Body>
+            <Card.Title style={{ fontSize: "15px", fontWeight: "bold" }}>
+              {team && `${team} - `}
+              {position}
+            </Card.Title>
+            <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+              {playerName}
+            </div>
+            {opponent && start_time && (
+              <p className="mb-2">
+                {opponent}
+                {" at "}
+                {new Date(start_time).toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </p>
             )}
-
-            {typeOfLine === "goblin" && (
-              <img
-                src={goblinImage}
-                alt="Goblin"
+            {projection && line && (
+              <p
                 style={{
-                  position: "fixed", // or "absolute"
-                  top: 10,
-                  right: 10,
-                  width: "25px",
-                  height: "25px",
-                  transform: "rotate(15deg)",
+                  color: score < 0 ? "red" : "green",
+                  fontWeight: "bolder",
                 }}
-              />
-=======
+                className="mb-2"
+              >
+                Proj: {projection} [{score}%]
+              </p>
+            )}
+            {category && line && (
+              <p className="mb-2">
+                Prop: {line} {category}
+              </p>
+            )}
             <div className="mb-2 start-time">
               <CountdownTimer startTime={start_time} onTimerComplete={handleTimerComplete} />{" "}
               {/* Include the CountdownTimer component */}
@@ -200,130 +238,32 @@ function BasicCard({
               <p className="mb-2">
                 Minutes: {minutes} ({minutesPercentage})
               </p>
-
             )}
-            {imageUrl && (
-              <Card.Img
-                style={{
-                  maxHeight: "40%",
-                  maxWidth: "40%",
-                  display: "block",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-                variant="top"
-                src={imageUrl}
-              />
+            {dvaPositionDefense && (
+              <p className="mb-2">Up against: {dvaPositionDefense}</p>
             )}
-            <Card.Body>
-              <Card.Title style={{ fontSize: "15px", fontWeight: "bold" }}>
-                {team && `${team} - `}
-                {position}
-              </Card.Title>
-              <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-                {playerName}
-              </div>
-              {opponent && start_time && (
-                <p className="mb-2">
-                  {opponent}
-                  {" at "}
-                  {new Date(start_time).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
-              {projection && line && (
-                <p
-                  style={{
-                    color: score < 0 ? "red" : "green",
-                    fontWeight: "bolder",
-                  }}
-                  className="mb-2"
-                >
-                  Proj: {projection} [{score}%]
-                </p>
-              )}
-              {category && line && (
-                <p className="mb-2">
-                  Prop: {line} {category}
-                </p>
-              )}
-              <div className="mb-2 start-time">
-                <CountdownTimer startTime={start_time} />{" "}
-                {/* Include the CountdownTimer component */}
-              </div>
-            </Card.Body>
-          </Card>
-          <Card
-            className="card-back"
-            style={{
-              width: "18rem",
-              maxHeight: "60%",
-              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
-              backgroundPosition: "center center",
-              backgroundSize: "contain",
-            }}
-          >
-            <Card.Body>
-              {usagePercent && (
-                <p className="mb-2">Usage Percent: {usagePercent}%</p>
-              )}
-              {typeOfLine && <p className="mb-2">Type of Line: {typeOfLine}</p>}
-              {minutes && minutesPercentage && (
-                <p className="mb-2">
-                  Minutes: {minutes} ({minutesPercentage})
-                </p>
-              )}
-            </Card.Body>
-          </Card>
-          <Card
-            className="card-back"
-            style={{
-              width: "18rem",
-              maxHeight: "60%",
-              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
-              backgroundPosition: "center center",
-              backgroundSize: "contain",
-            }}
-          >
-            <Card.Body>
-              {usagePercent && (
-                <p className="mb-2">Usage Percent: {usagePercent}%</p>
-              )}
-              {typeOfLine && <p className="mb-2">Type of Line: {typeOfLine}</p>}
-              {minutes && minutesPercentage && (
-                <p className="mb-2">
-                  Minutes: {minutes} ({minutesPercentage})
-                </p>
-              )}
-              {dvaPositionDefense && (
-                <p className="mb-2">Up against: {dvaPositionDefense}</p>
-              )}
 
-              {isMyPicksPage ? (
-                <Button
-                  onClick={handleCardButtonClick}
-                  className="cardButton"
-                  variant="primary"
-                >
-                  Add to picks
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleCardDeleteClick}
-                  className="cardButton"
-                  variant="primary"
-                >
-                  Delete Pick
-                </Button>
-              )}
-            </Card.Body>
-          </Card>
-        </div>
+            {isMyPicksPage ? (
+              <Button
+                onClick={handleCardButtonClick}
+                className="cardButton"
+                variant="primary"
+              >
+                Add to picks
+              </Button>
+            ) : (
+              <Button
+                onClick={handleCardDeleteClick}
+                className="cardButton"
+                variant="primary"
+              >
+                Delete Pick
+              </Button>
+            )}
+          </Card.Body>
+        </Card>
       </div>
-    </div> // Add this line
+    </div>
   );
 }
 
