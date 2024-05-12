@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-function CountdownTimer({ startTime }) {
+function CountdownTimer({ startTime, onTimerComplete }) {
   const [timeLeft, setTimeLeft] = useState(getTimeRemaining());
   const [flashClass, setFlashClass] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(getTimeRemaining());
-      setFlashClass(getFlashClass());
+      const remainingTime = getTimeRemaining();
+      setTimeLeft(remainingTime);
+      setFlashClass(getFlashClass(remainingTime));
+
+      if (remainingTime.days === 0 && remainingTime.hours === 0 && remainingTime.minutes === 0 && remainingTime.seconds === 0) {
+        // Timer has reached zero, call the callback function
+        if (onTimerComplete) {
+          onTimerComplete();
+        }
+      }
     }, 1000);
 
     return () => clearInterval(timer);
@@ -38,7 +46,7 @@ function CountdownTimer({ startTime }) {
     if (totalSeconds > 30 * 60) {
       return "green"; // Over 30 minutes
     } else if (totalSeconds > 15 * 60) {
-      return "#rgb(255, 140, 0)"; // Between 15 and 30 minutes
+      return "rgb(255, 140, 0)"; // Between 15 and 30 minutes
     } else {
       return "red"; // 15 minutes and under
     }

@@ -1,3 +1,5 @@
+// Inside BasicCard.jsx
+
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
@@ -109,6 +111,11 @@ function BasicCard({
     }, 1000); // Adjust this delay to match the duration of your animation
   };
 
+  const handleTimerComplete = () => {
+    // Automatically delete the card when timer expires
+    handleCardDeleteClick();
+  };
+
   if (isCardAdded) {
     return null;
   }
@@ -207,7 +214,7 @@ function BasicCard({
               </p>
             )}
             <div className="mb-2 start-time">
-              <CountdownTimer startTime={start_time} />{" "}
+              <CountdownTimer startTime={start_time} onTimerComplete={handleTimerComplete} />{" "}
               {/* Include the CountdownTimer component */}
             </div>
           </Card.Body>
