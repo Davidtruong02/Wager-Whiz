@@ -1,6 +1,8 @@
 import React from "react";
+import { useMediaQuery } from "react-responsive";
 
 function LoggedIn() {
+  const isMobile = useMediaQuery({ query: "(max-width: 930px)" });
   return (
     <>
       <div
@@ -13,9 +15,10 @@ function LoggedIn() {
         }}
       >
         <h1>Welcome!</h1>
-        <h2>
-          Click on the current board to see a list for todays sports and import
-          their cards
+        <h2 style={isMobile ? { marginTop: "20px" } : {}}>
+          {isMobile
+            ? "Click on the dropdown menu, then current board to see a list of today's sports and import their cards"
+            : "Click on the current board to see a list for todays sports and import their cards"}
         </h2>
       </div>
     </>

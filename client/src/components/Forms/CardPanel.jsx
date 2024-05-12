@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import prizePicksIcon from "../../images/PrizePicks.png";
 import underDogIcon from "../../images/underdog.png";
 import Axios from "axios";
@@ -14,6 +15,7 @@ function CardPanel({ selectedSport }) {
   const [searchInput, setSearchInput] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const isMobile = useMediaQuery({ query: "(max-width: 930px)" });
 
   const handleInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -58,9 +60,21 @@ function CardPanel({ selectedSport }) {
     }
   }, [playerData, activeTab]);
 
+  // const filterPlayers = (players) => {
+  //   const now = new Date();
+  //   return players.filter(
+  //     (data) =>
+  //       data.source === selectedTab() &&
+  //       (data.playerName.toLowerCase().includes(searchInput.toLowerCase()) ||
+  //         data.team.toLowerCase().includes(searchInput.toLowerCase())) &&
+  //       data.category === selectedCategory &&
+  //       new Date(data.start_time) > now // Filter out cards with start_time in the past
+  //   );
+  // };
+
   const filterPlayers = (players) => {
     const now = new Date();
-    return players.filter(
+    const filteredPlayers = players.filter(
       (data) =>
         data.source === selectedTab() &&
         (data.playerName.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -68,6 +82,8 @@ function CardPanel({ selectedSport }) {
         data.category === selectedCategory &&
         new Date(data.start_time) > now // Filter out cards with start_time in the past
     );
+    console.log("filteredPlayers:", filteredPlayers);
+    return filteredPlayers;
   };
 
   const selectedTab = () => {
@@ -107,7 +123,7 @@ function CardPanel({ selectedSport }) {
                     alt="Prize Picks Icon"
                     style={{ marginRight: "10px" }}
                   />
-                  Prize Picks
+                  {!isMobile && "Prize Picks"}
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
@@ -117,7 +133,7 @@ function CardPanel({ selectedSport }) {
                     alt="underDog Icon"
                     style={{ marginRight: "10px" }}
                   />
-                  Underdog
+                  {!isMobile && "Under Dog"}
                 </Nav.Link>
               </Nav.Item>
             </Nav>
@@ -128,7 +144,7 @@ function CardPanel({ selectedSport }) {
                 className="mr-2"
                 value={searchInput}
                 onChange={handleInputChange}
-                style={{ width: "300px" }}
+                style={{ width: isMobile ? "150px" : "300px" }}
               />
             </div>
           </div>

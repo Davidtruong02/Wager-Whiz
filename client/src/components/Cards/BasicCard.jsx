@@ -1,6 +1,7 @@
 // Inside BasicCard.jsx
 
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -34,6 +35,7 @@ function BasicCard({
 }) {
   const [isCardAdded, setIsCardAdded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
   const calculateScore = () => {
     if (line) {
@@ -214,7 +216,10 @@ function BasicCard({
               </p>
             )}
             <div className="mb-2 start-time">
-              <CountdownTimer startTime={start_time} onTimerComplete={handleTimerComplete} />{" "}
+              <CountdownTimer
+                startTime={start_time}
+                onTimerComplete={handleTimerComplete}
+              />{" "}
               {/* Include the CountdownTimer component */}
             </div>
           </Card.Body>

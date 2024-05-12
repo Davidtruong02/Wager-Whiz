@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import Axios from "axios";
 import BasicCard from "../Cards/BasicCard";
 import { Row, Col, Tab, Nav, Button } from "react-bootstrap";
@@ -13,6 +14,7 @@ function MyPicks() {
   const [pickData, setPickData] = useState([]);
   const [activeTab, setActiveTab] = useState("first");
   const [selectedSport, setSelectedSport] = useState(null);
+  const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
   // Get the id_token from local storage
   const idToken = localStorage.getItem("id_token");
@@ -103,7 +105,7 @@ function MyPicks() {
                         alt="Prize Picks"
                         style={{ width: "20px", marginRight: "5px" }}
                       />
-                      Prize Picks
+                      {!isMobile && "Prize Picks"}
                     </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
@@ -113,7 +115,7 @@ function MyPicks() {
                         alt="Under Dog"
                         style={{ width: "20px", marginRight: "5px" }}
                       />
-                      UnderDog
+                      {!isMobile && "UnderDog"}
                     </Nav.Link>
                   </Nav.Item>
                 </Nav>

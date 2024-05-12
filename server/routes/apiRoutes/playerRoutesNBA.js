@@ -22,6 +22,9 @@ router.get("/:sport", async (req, res) => {
 
     const playerData = await NBAPlayerData.find({ sport });
     res.json(playerData);
+    console.log("----------------------------------------------");
+    console.log(playerData);
+    console.log("----------------------------------------------");
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching player data");
