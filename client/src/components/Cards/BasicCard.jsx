@@ -243,62 +243,67 @@ function BasicCard({
               }}
             />
           )}
-          {imageUrl && (
-            <Card.Img
-              style={{
-                maxHeight: "40%",
-                maxWidth: "40%",
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-              variant="top"
-              src={imageUrl}
-            />
-          )}
-          <Card.Body>
-            <Card.Title style={{ fontSize: "15px", fontWeight: "bold" }}>
-              {team && `${team} - `}
-              {position}
-            </Card.Title>
-            <div style={{ fontSize: "20px", fontWeight: "bold" }}>
-              {playerName}
-            </div>
-            {opponent && start_time && (
-              <p className="mb-2">
-                {opponent}
-                {" at "}
-                {new Date(start_time).toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </p>
-            )}
-            {projection && line && (
-              <p
+          <div className="full-card">
+            {imageUrl && (
+              <Card.Img
+                className="card-image"
                 style={{
-                  color: score < 0 ? "red" : "green",
-                  fontWeight: "bolder",
+                  maxHeight: "40%",
+                  maxWidth: "40%",
+                  display: "block",
+                  marginLeft: "auto",
+                  marginRight: "auto",
                 }}
-                className="mb-2"
-              >
-                Proj: {projection} [{score}%]
-              </p>
+                variant="top"
+                src={imageUrl}
+              />
             )}
-            {category && line && (
-              <p className="mb-2">
-                Prop: {line} {category}
-              </p>
-            )}
-            <div className="mb-2 start-time">
-              <CountdownTimer
-                startTime={start_time}
-                onTimerComplete={handleTimerComplete}
-              />{" "}
-              {/* Include the CountdownTimer component */}
-            </div>
-          </Card.Body>
+            <Card.Body>
+              <div className="card-text">
+                <Card.Title style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  {team && `${team} - `}
+                  {position}
+                </Card.Title>
+                <div style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  {playerName}
+                </div>
+                {opponent && start_time && (
+                  <p className="mb-2">
+                    {opponent}
+                    {" at "}
+                    {new Date(start_time).toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </p>
+                )}
+                {projection && line && (
+                  <p
+                    style={{
+                      color: score < 0 ? "red" : "green",
+                      fontWeight: "bolder",
+                    }}
+                    className="mb-2"
+                  >
+                    Proj: {projection} [{score}%]
+                  </p>
+                )}
+                {category && line && (
+                  <p className="mb-2">
+                    Prop: {line} {category}
+                  </p>
+                )}
+                <div className="mb-2 start-time">
+                  <CountdownTimer
+                    startTime={start_time}
+                    onTimerComplete={handleTimerComplete}
+                  />{" "}
+                  {/* Include the CountdownTimer component */}
+                </div>
+              </div>
+            </Card.Body>
+          </div>
         </Card>
         <Card
           className="card-back"
@@ -311,6 +316,7 @@ function BasicCard({
             `,
             backgroundPosition: "center center",
             backgroundSize: "contain",
+            overflow: "hidden",
           }}
         >
           <Card.Body>
