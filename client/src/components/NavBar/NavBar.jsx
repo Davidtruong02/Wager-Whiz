@@ -245,9 +245,9 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
               >
                 Sign In
               </Button>
-              <Link to="/https://buy.stripe.com/test_5kAcN1gXD9qb6EE4gg">
-                <Button 
-                  variant="primary" 
+              <Link to="https://buy.stripe.com/test_5kAcN1gXD9qb6EE4gg">
+                <Button
+                  variant="primary"
                   onClick={handleSubscription}
                   className="mr-2"
                 >
