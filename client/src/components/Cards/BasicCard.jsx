@@ -37,6 +37,79 @@ function BasicCard({
   const [isAnimating, setIsAnimating] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 900px)" });
 
+  const getTeamColor = (team, sport) => {
+    const teamColors = {
+      NBA: {
+        IND: "rgba(0,0,128, 0.5), rgba(255, 215, 0, 0.5)",
+        MIN: "rgba(25, 25, 112, 0.5), rgba(194,197,204, 0.5)",
+        ATL: "rgba(0,0,0, 0.5), rgba(163, 13, 45, 0.5)",
+        BOS: "rgba(0, 122, 51, 0.5), rgba(139,111,78, 0.5)",
+        BKN: "rgba(0, 0, 0, 0.5), rgba(255,255,255, 0.5)",
+        CHA: "rgba(29, 17, 96, 0.5), rgba(0,120,140, 0.5)",
+        CHI: "rgba(0,43,92, 0.5), rgba(206, 17, 65, 0.5)",
+        CLE: "rgba(0,45,98, 0.5), rgba(111, 38, 61, 0.5)",
+        DAL: "rgba(0, 43, 92, 0.5), rgba(0, 83, 188, 0.5)",
+        DEN: "rgba(13, 34, 64, 0.5), rgba(255,198,39, 0.5)",
+        DET: "rgba(29,66,138, 0.5), rgba(200, 16, 46, 0.5)",
+        GSW: "rgba(0, 107, 182, 0.5), rgba(253,185,39, 0.5)",
+        HOU: "rgba(0,45,98, 0.5), rgba(206, 17, 65, 0.5)",
+        LAC: "rgba(29,66,138, 0.5), rgba(200, 16, 46, 0.5)",
+        LAL: "rgba(85, 37, 130, 0.5), rgba(253,185,39, 0.5)",
+        MEM: "rgba(18,77,153, 0.5), rgba(93, 118, 169, 0.5)",
+        MIA: "rgba(152, 0, 46, 0.5), rgba(249,160,27, 0.5)",
+        MIL: "rgba(0, 71, 27, 0.5), rgba(240,235,210, 0.5)",
+        NOP: "rgba(0, 43, 92, 0.5), rgba(227,24,55, 0.5)",
+        NYK: "rgba(0, 107, 182, 0.5), rgba(245,132,38, 0.5)",
+        OKC: "rgba(0, 125, 195, 0.5), rgba(239,59,36, 0.5)",
+        ORL: "rgba(0, 125, 197, 0.5), rgba(196,206,211, 0.5)",
+        PHI: "rgba(0, 107, 182, 0.5), rgba(237,23,76, 0.5)",
+        PHX: "rgba(29, 17, 96, 0.5), rgba(229,95,32, 0.5)",
+        POR: "rgba(0,0,0, 0.5), rgba(224, 58, 62, 0.5)",
+        SAC: "rgba(0,0,0, 0.5), rgba(91, 43, 130, 0.5)",
+        SAS: "rgba(6, 25, 34, 0.5), rgba(196,206,211, 0.5)",
+        TOR: "rgba(6,25,34, 0.5), rgba(206, 17, 65, 0.5)",
+        UTA: "rgba(0, 43, 92, 0.5), rgba(249,160,27, 0.5)",
+        WAS: "rgba(0, 43, 92, 0.5), rgba(227,24,55, 0.5)",
+      },
+      MLB: {
+        ARI: "rgba(111,38,61, 0.5), rgba(167, 25, 48, 0.5)",
+        ATL: "rgba(29,66,138, 0.5), rgba(206, 17, 65, 0.5)",
+        BAL: "rgba(0,0,0, 0.5), rgba(223, 70, 1, 0.5)",
+        BOS: "rgba(0,37,84, 0.5), rgba(189, 48, 57, 0.5)",
+        CHC: "rgba(0, 47, 108, 0.5), rgba(200,16,46, 0.5)",
+        CWS: "rgba(0, 47, 108, 0.5), rgba(200,16,46, 0.5)",
+        CIN: "rgba(0,0,0, 0.5), rgba(198, 1, 31, 0.5)",
+        CLE: "rgba(12, 35, 64, 0.5), rgba(213,0,50, 0.5)",
+        COL: "rgba(0,0,0, 0.5), rgba(51, 0, 111, 0.5)",
+        DET: "rgba(12,35,64, 0.5), rgba(250, 70, 22, 0.5)",
+        HOU: "rgba(0, 45, 98, 0.5), rgba(255,255,255, 0.5)",
+        KC: "rgba(0, 70, 135, 0.5), rgba(198,146,20, 0.5)",
+        LAA: "rgba(0,50,132, 0.5), rgba(186, 12, 47, 0.5)",
+        LAD: "rgba(0,90,156, 0.5), rgba(162, 170, 173, 0.5)",
+        MIA: "rgba(0, 144, 81, 0.5), rgba(132,132,132, 0.5)",
+        MIL: "rgba(19, 41, 75, 0.5), rgba(255,200,46, 0.5)",
+        MIN: "rgba(0, 43, 92, 0.5), rgba(229,95,32, 0.5)",
+        NYM: "rgba(0, 45, 114, 0.5), rgba(252,76,2, 0.5)",
+        NYY: "rgba(0,0,0, 0.5), rgba(12, 35, 64, 0.5)",
+        OAK: "rgba(0, 56, 49, 0.5), rgba(239,178,61, 0.5)",
+        PHI: "rgba(0,45,98, 0.5), rgba(239, 51, 64, 0.5)",
+        PIT: "rgba(39,37,31, 0.5), rgba(253, 184, 39, 0.5)",
+        SD: "rgba(0, 45, 98, 0.5), rgba(255,255,255, 0.5)",
+        SEA: "rgba(0, 92, 92, 0.5), rgba(12,35,64, 0.5)",
+        SF: "rgba(0, 0, 0, 0.5), rgba(255,255,255, 0.5)",
+        STL: "rgba(196, 30, 58, 0.5), rgba(255,255,255, 0.5)",
+        TB: "rgba(9, 44, 92, 0.5), rgba(143,188,230, 0.5)",
+        TEX: "rgba(0, 50, 132, 0.5), rgba(192,192,192, 0.5)",
+        TOR: "rgba(19, 74, 142, 0.5), rgba(255,255,255, 0.5)",
+        WSH: "rgba(0,30,105, 0.5), rgba(171, 0, 3, 0.5)",
+      },
+    };
+    return (
+      (teamColors[sport] && teamColors[sport][team]) ||
+      "transparent, transparent"
+    );
+  };
+
   const calculateScore = () => {
     if (line) {
       return ((projection / line) * 100 - 100).toFixed(2);
@@ -133,7 +206,10 @@ function BasicCard({
           style={{
             width: "18rem",
             maxHeight: "60%",
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundImage: `    
+            linear-gradient(${getTeamColor(team, sport)}),         
+            linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)
+            `,
             backgroundPosition: "center center",
             backgroundSize: "contain",
             position: "relative", // Add this to position the demon image
@@ -229,7 +305,10 @@ function BasicCard({
           style={{
             width: "18rem",
             maxHeight: "60%",
-            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)`,
+            backgroundImage: `    
+            linear-gradient(${getTeamColor(team, sport)}),         
+            linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url(https://a.espncdn.com/i/teamlogos/${sport}/500/${team}.png)
+            `,
             backgroundPosition: "center center",
             backgroundSize: "contain",
           }}
