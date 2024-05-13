@@ -9,6 +9,7 @@ import Icon from "../../images/fantasySports.jpg";
 import Button from "react-bootstrap/Button";
 import SignInModal from "../Modal/SignInModal";
 import SignUpModal from "../Modal/SignUpModal";
+import SubscriptionModal from "../Modal/SubscriptionModal";
 import CardPanel from "../Forms/CardPanel";
 import "../../App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,6 +43,15 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
   const [username, setUsername] = useState("");
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showSubscriptionModal, setSubscriptionModal] = useState(false);
+
+  const handleSubscription = () => {
+    setSubscriptionModal(true);
+  };
+
+  const handleSubscriptionModalClose = () => {
+    setSubscriptionModal(false);
+  };
 
   const handleLogout = () => {
     Auth.logout();
@@ -51,6 +61,7 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
   const handleSignUpClick = () => {
     setShowSignInModal(false);
     setShowSignUpModal(true);
+    setShowSubscriptionModal(true);
   };
 
   const handleSignInModalClose = () => setShowSignInModal(false);
@@ -64,6 +75,12 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
     console.log("handleSignUpModalShow called"); // Debug log
     setShowSignUpModal(true); // Fixed line
     setShowSignInModal(false);
+  };
+  const handleSubscriptionClose = () => setSubscriptionModal(false); // Define handleSignUpModalClose here
+  const handleSubscriptionModalShow = () => {
+    console.log("handleSignUpModalShow called"); // Debug log
+    setShowSubscriptionModal(true); // Fixed line
+    setSubscriptionModal(false);
   };
 
   useEffect(() => {
@@ -228,6 +245,15 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
               >
                 Sign In
               </Button>
+              <Link to="/https://buy.stripe.com/test_5kAcN1gXD9qb6EE4gg">
+                <Button 
+                  variant="primary" 
+                  onClick={handleSubscription}
+                  className="mr-2"
+                >
+                  Subscribe with Stripe
+                </Button>
+              </Link>
               <SignInModal
                 show={showSignInModal}
                 handleClose={handleSignInModalClose}
@@ -236,6 +262,10 @@ function NavBar({ handleSignUpModalOpen, setSelectedSport, setShowMyPicks }) {
               <SignUpModal
                 show={showSignUpModal}
                 handleClose={handleSignUpModalClose}
+              />
+              <SubscriptionModal
+                show={showSubscriptionModal}
+                handleClose={handleSubscriptionModalClose}
               />
             </>
           )}
