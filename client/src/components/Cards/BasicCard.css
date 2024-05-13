@@ -76,7 +76,7 @@
 /*---------------------------------------------------------*/
 
 /* Media query for screens with width less than 500px */
-
+@media only screen and (max-width: 500px) {
   
   .player-cards{
     display: flex;
